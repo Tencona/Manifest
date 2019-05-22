@@ -1,13 +1,13 @@
 <template>
 	<div class="home">
 		<img alt="Vue logo" src="../assets/logo.png">
-		<button @click.native="generateData">Generate Data</button>
+		<button @click="generateData">Generate Data</button>
 	</div>
 </template>
 
 <script>
 // @ is an alias to /src
-import manifest from "../Manifest/manifest.js";
+import manifest from "../Manifest/manifest";
 import gendata from "../Manifest/data/generate-test-data";
 
 export default {
@@ -16,7 +16,7 @@ export default {
 	mounted() {},
 	methods: {
 		generateData() {
-			gendata.init(manifest);
+			gendata.init(new manifest());
 			gendata.generate();
 			var s = "";
 		}
