@@ -5,11 +5,14 @@ export default class Item {
 	constructor(type) {
 		this.uuid = uuid();
 		this.type = type;
-		this.properties = {}; //This will be an item with the Type's Property's name and the Item's value {'name':'Tom','age':42,'spouse':[Item]}
+		this.properties = type.properties; //This will be an item with the Type's Property's name and the Item's value {'name':'Tom','age':42,'spouse':[Item]}
 		//Example:
 		//Item: Car
 		//Property: Wheels (Numeric)
 		//Item.properties = {'Wheels': 4}
+
+		//Update:
+		//A dictionary makes the lookup quick, but the property needs to remain a reference to the original Property in case the validation is updated.
 	}
 
 	setProperty(property, value) {

@@ -16,7 +16,8 @@ export default class Manifest {
 			this.items.push(item);
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Success,
-				`Added Item of Type: ${item.type.name} with ${item.properties.length} properties`
+				`Added Item of Type: ${item.type.name} with ${item.properties.length} properties`,
+				item
 			);
 		} else
 			return new this.Models.Result(
