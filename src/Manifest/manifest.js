@@ -11,8 +11,9 @@ export default class Manifest {
 		this.items = [];
 	}
 
+	//Adds an Item to Manifest
 	addItem(item) {
-		if (item) {
+		if (item && item.isValidItem) {
 			this.items.push(item);
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Success,
@@ -26,8 +27,9 @@ export default class Manifest {
 			);
 	}
 
+	//Adds a Type to Manifest
 	addType(type) {
-		if (type && type.name && type.name !== '') {
+		if (type && type.isValidType) {
 			if (this.types.map(t => t.name).includes(type.name))
 				return new this.Models.Result(
 					this.Config.RESULT_TYPE.Error,

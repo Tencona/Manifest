@@ -15,6 +15,10 @@ export default class Item {
 		//A dictionary makes the lookup quick, but the property needs to remain a reference to the original Property in case the validation is updated.
 	}
 
+	get isValidItem() {
+		return !!this.uuid && !!this.type;
+	}
+
 	setProperty(property, value) {
 		//`property` is just a string that matches the Property.name it refers to
 		if (property && value) {

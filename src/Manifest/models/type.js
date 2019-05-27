@@ -13,7 +13,7 @@ export default class Type {
 	}
 
 	get isValidType() {
-		return exists(this.name);
+		return !!this.uuid && !!this.name;
 	}
 
 	addProperty(property) {
@@ -30,15 +30,11 @@ export default class Type {
 			this._properties.push(property);
 			return new Result(
 				RESULT_TYPE.Success,
-				`Added Property - name: '${property.name}'\nvalueType: '${
-					property.valueType.name
-				}'\nvalidation: ${property.validation ? 'true' : 'false'}`
+				`Added Property - name: '${property.name}'\nvalueType: '${property.valueType.name}'\nvalidation: ${
+					property.validation ? 'true' : 'false'
+				}`
 			);
-		} else
-			return new Result(
-				RESULT_TYPE.Error,
-				'Attempted to add an invalid Property in Type.addProperty()'
-			);
+		} else return new Result(RESULT_TYPE.Error, 'Attempted to add an invalid Property in Type.addProperty()');
 	}
 
 	get properties() {
