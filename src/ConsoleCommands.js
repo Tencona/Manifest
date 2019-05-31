@@ -1,6 +1,19 @@
 export { exists };
 
 function executeCommand(userInput) {
+    //Create
+    //Read (Search)
+    //Update
+    //Delete
+
+    
+    //add -item "item name"
+
+    //add -type "type name"
+
+    //add -property "property name" -type "type name" -ptype "int/string/date"
+
+
     //search -item "search text"
         //Matches on item name or uuid
 
