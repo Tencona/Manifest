@@ -38,20 +38,22 @@ function executeCommand(manifest, userInput) {
 			case 'prop':
 				if (matchedType) {
 					let valueType;
-					switch (userInput.args[2].values[0]) {
-						case 'num':
-						case 'int':
-							valueType = manifest.Config.VALUE_TYPES.NUMERIC;
-							break;
-						case 'date':
-							valueType = manifest.Config.VALUE_TYPES.DATE;
-							break;
-						case 'text':
-						case 'string':
-						default:
-							valueType = manifest.Config.VALUE_TYPES.TEXT;
-							break;
-					}
+					if (userInput.args[2]) {
+						switch (userInput.args[2].values[0]) {
+							case 'num':
+							case 'int':
+								valueType = manifest.Config.VALUE_TYPES.NUMERIC;
+								break;
+							case 'date':
+								valueType = manifest.Config.VALUE_TYPES.DATE;
+								break;
+							case 'text':
+							case 'string':
+							default:
+								valueType = manifest.Config.VALUE_TYPES.TEXT;
+								break;
+						}
+					} else valueType = manifest.Config.VALUE_TYPES.TEXT;
 					const newProperty = new manifest.Models.Property(firstValue, valueType);
 					const result = matchedType.addProperty(newProperty);
 					result.payload = { type: matchedType, property: newProperty };

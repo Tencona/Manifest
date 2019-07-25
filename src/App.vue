@@ -16,8 +16,7 @@ import manifest from "../src/Manifest/manifest";
 
 export default {
 	mounted() {
-		//TODO: Address this. It's overwriting on mounted every single time
-		if (!!this.$store.state.manifest) {
+		if (!this.$store.state.manifest) {
 			this.$store.dispatch("setManifest", new manifest());
 		}
 	}

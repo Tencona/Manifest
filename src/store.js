@@ -10,7 +10,7 @@ const vuexPersist = new VuexPersistence({
 
 export default new Vuex.Store({
 	state: {
-		manifest: {},
+		manifest: undefined,
 	},
 	mutations: {
 		RESTORE_MUTATION: vuexPersist.RESTORE_MUTATION,
