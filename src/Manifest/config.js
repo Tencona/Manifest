@@ -10,7 +10,7 @@ export default {
 	logErrors: true,
 	logCriticalErrors: true,
 
-	PROPERTY_TYPES: Object.freeze({
+	VALUE_TYPES: Object.freeze({
 		TEXT: { value: 0, name: 'Text' },
 		NUMERIC: { value: 1, name: 'Numeric' },
 		DATE: { value: 2, name: 'Date' },

@@ -4,7 +4,7 @@ export default class Property {
 	constructor(name, valueType, validation) {
 		this.uuid = uuid();
 		this.name = name;
-		this.valueType = valueType;
+		this.valueType = valueType; //Check this against VALUE_TYPES in config
 		this.validation = validation;
 	}
 
@@ -13,6 +13,6 @@ export default class Property {
 	}
 
 	get isValidProperty() {
-		return exists(this.name) && exists(this.valueType);
+		return !!this.uuid && !!this.name && !!this.valueType;
 	}
 }

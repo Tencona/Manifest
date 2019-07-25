@@ -6,9 +6,23 @@
 			<router-link to="/console">Console</router-link>|
 			<router-link to="/about">About</router-link>
 		</div>
-		<router-view/>
+		<router-view />
 	</div>
 </template>
+
+<script>
+// import { mapState } from "vuex";
+import manifest from "../src/Manifest/manifest";
+
+export default {
+	mounted() {
+		//TODO: Address this. It's overwriting on mounted every single time
+		if (!!this.$store.state.manifest) {
+			this.$store.dispatch("setManifest", new manifest());
+		}
+	}
+};
+</script>
 
 <style>
 #app {

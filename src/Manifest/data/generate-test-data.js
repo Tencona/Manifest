@@ -63,7 +63,7 @@ export default {
 		return this.getRandomElement(this.Manifest.properties);
 	},
 	getRandomPropertyType: function() {
-		return this.getRandomElement(Object.entries(this.Manifest.Config.PROPERTY_TYPES).map(x => x[1]));
+		return this.getRandomElement(Object.entries(this.Manifest.Config.VALUE_TYPES).map(x => x[1]));
 	},
 	//#endregion
 
