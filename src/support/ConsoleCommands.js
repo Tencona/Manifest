@@ -9,6 +9,7 @@ function executeCommand(manifest, userInput) {
 	//Delete
 	////
 
+	//#region Add
 	//Add Item
 	//add -item "item name" -type "type name"
 	//Add Type
@@ -62,6 +63,9 @@ function executeCommand(manifest, userInput) {
 				break;
 		}
 	}
+	//#endregion
+
+	//#region Search
 	//search -item "search text"
 	//Matches on item name or uuid
 	//search -type "search text"
@@ -70,4 +74,5 @@ function executeCommand(manifest, userInput) {
 	//Matches all itms where the given properties have the specified values
 	//search -type -<property name>  -<property name 2>
 	//Matches all types that have the given properties
+	//#endregion
 }
