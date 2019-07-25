@@ -11,12 +11,13 @@
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
     "vue-graybox": "^0.1.92",
-    "vue-router": "^3.0.3"
+    "vue-router": "^3.0.3",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.8.0",
-    "@vue/cli-plugin-pwa": "^3.8.0",
-    "@vue/cli-service": "^3.8.4",
+    "@vue/cli-plugin-babel": "^3.9.2",
+    "@vue/cli-plugin-pwa": "^3.9.0",
+    "@vue/cli-service": "^3.9.3",
     "vue-template-compiler": "^2.5.21"
   },
   "postcss": {
