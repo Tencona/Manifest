@@ -1,3 +1,21 @@
+/*
+* n o t e s
+? Should Manifest be restructured to put Items inside of Types? It would increase speed in a lot of ways and I can't remember if there was a benefit to structuring it flatly, but I know I had some reason in the past.
+	TODO: Figure out why things are structured flatly instead of in a hierarchy.
+		Did I think about adding Items without a Type? Like adding an Item first? That could be it, but right now Item requires a Type in its constructor.
+		Maybe it was just an attempt to keep everything separated, but that's silly. It'd be so much slower.
+
+? Should Item Properties be restructured?
+	!potentially really stupid idea
+	var item = {};
+	item.properties = {name: "Car", wheels: 4, model: "Civic"}
+	With the above structure, it's really easy to check if an Item has a Property, but searching through all of its values (in a general search) would be slow.
+	Items have a Type so checking if an Item has a Property should not be its responsibility. If the Item Properties are stored in an array like ["Car", 4, "Civic"] and the Properties were indexed correctly, you'd store less, have an instant lookup, and searching through all of them would be faster.
+	Granted, this is all to avoid having to do `Object.keys(Item.properties)` and that's super fast as is so what am I worried about. Maybe this whole exercise is stupid.
+
+TODO Types need a Key! One Key Property that gets searched first before other things get searched. I am such a dumb dumb for not thinking of that sooner.
+*/
+
 import ManifestConfig from './config';
 import models from './models';
 
@@ -10,7 +28,7 @@ export default class Manifest {
 		this.types = [];
 		this.items = [];
 	}
-
+	//#region Add - Item, Type
 	//Adds an Item to Manifest
 	addItem(item) {
 		if (item && item.isValidItem) {
@@ -49,4 +67,44 @@ export default class Manifest {
 				'Attempted to add a null Type in Manifest.addItem()'
 			);
 	}
+	//#endregion
+
+	//#region Remove - Item, Type
+
+	//#endregion
+
+	//#region Search - Item, Type
+	//This search needs to be really customizable because eventually when there are Views in Manifest, they'll need to have baked in filtering and that could have somewhat complex filters. I don't want to limit users on the fitlers themselves, so they'll need to be additive and subtractive.
+	//! Filters could be like a pipeline. There's something in Vue for that. Ask Cody about that.
+	//Need to figure out where I want to index everything so searching is faster. If I make all properties indexed then this will be a lot faster.
+
+	//! All of this is unlikely to work and is very likely to be rewritten.
+	//! Treat it like pseudocode
+	//Search everything about all Items
+	searchItems(searchString) {
+		this.items.filter(item => {
+			let matched = false;
+
+			//Declaring variable inside loop is apparently faster
+			for (var property in item.properties) {
+				if (item.properties[property] === searchString) matched = true;
+			}
+
+			return matched;
+		});
+	}
+
+	//Search Items of a Type
+	searchItems(searchString, type) {}
+
+	//Search Items with a Property
+	searchItems(searchString, property) {}
+
+	//Search Items of a Type with a Property
+	searchItems(searchString, type, propertyName) {
+		//Having Type and Property is only beneficial to be more specific, though it likely won't see performance gains.
+		//If you filter down to just the Items of a given Type, then you're looping all Items. Then you'd have to loop the ones you filtered down to and check for the property
+	}
+
+	//#endregion
 }
