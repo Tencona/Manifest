@@ -4,14 +4,7 @@
 	TODO: Figure out why things are structured flatly instead of in a hierarchy.
 		Did I think about adding Items without a Type? Like adding an Item first? That could be it, but right now Item requires a Type in its constructor.
 		Maybe it was just an attempt to keep everything separated, but that's silly. It'd be so much slower.
-
-? Should Item Properties be restructured?
-	!potentially really stupid idea
-	var item = {};
-	item.properties = {name: "Car", wheels: 4, model: "Civic"}
-	With the above structure, it's really easy to check if an Item has a Property, but searching through all of its values (in a general search) would be slow.
-	Items have a Type so checking if an Item has a Property should not be its responsibility. If the Item Properties are stored in an array like ["Car", 4, "Civic"] and the Properties were indexed correctly, you'd store less, have an instant lookup, and searching through all of them would be faster.
-	Granted, this is all to avoid having to do `Object.keys(Item.properties)` and that's super fast as is so what am I worried about. Maybe this whole exercise is stupid.
+		* Things are stored flatly because of JSON being unable to handle a circular reference. Items have a reference to their Type, so Types cannot have an array of their Items.
 
 TODO Types need a Key! One Key Property that gets searched first before other things get searched. I am such a dumb dumb for not thinking of that sooner.
 */
@@ -33,6 +26,9 @@ export default class Manifest {
 	addItem(item) {
 		if (item && item.isValidItem) {
 			this.items.push(item);
+
+			//This is circular structure. That's why Items are flat and not stored inside of this.items
+			item.type.items.push(item);
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Success,
 				`Added Item: \`${item.uuid}\` of Type: \`${item.type.name}\` with \`${
@@ -70,6 +66,10 @@ export default class Manifest {
 	//#endregion
 
 	//#region Remove - Item, Type
+	removeItem(item) {
+		if (item) {
+		}
+	}
 
 	//#endregion
 

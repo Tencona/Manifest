@@ -10,6 +10,9 @@ export default class Type {
 		this.parentType = undefined;
 		this.pageLayout = undefined; //Unsure how to handle this.
 		this._properties = [];
+
+		//! This could be a bad idea. Circular reference and all.
+		// this.items = [];
 	}
 
 	get isValidType() {

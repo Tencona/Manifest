@@ -1,8 +1,8 @@
 export default {
 	Manifest: {},
 	config: {
-		numTypes: 3,
-		numItems: 25,
+		numTypes: 50,
+		numItems: 2500,
 		numProperties: 5,
 	},
 	initialized: false,
@@ -14,9 +14,9 @@ export default {
 		this.initialized = true;
 	},
 	generate: function() {
-		var a = this.generateType(50);
+		var a = this.generateType(this.config.numTypes);
 
-		debugger;
+		this.generateItem(this.config.numItems);
 	},
 
 	//#region Raw Random Primitives
@@ -89,7 +89,7 @@ export default {
 	generateItem: function(number = 1) {
 		let arr = [];
 		for (let i = 0; i < number; i++) {
-			let item = new this.Manifest.Models.Item(this.getRandomString(5, 'aA'));
+			let item = new this.Manifest.Models.Item(this.getRandomType());
 
 			this.Manifest.addItem(item);
 		}
