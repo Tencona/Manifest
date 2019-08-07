@@ -1,10 +1,13 @@
+![Manifest](./src/assets/logo.png)
+
 # Manifest
 
 Manifest is a tool developed originally for Dungeon/Game Masters but it's expanded to fit many roles.
 
 Manifest is comprised of three models: Type, Property, and Item.
 Using those three components, a developer can easily create endlessly nested classes of inheritance with the ability to quickly generate any number of Items using known values of the same Type.
-[Examples.](##Examples)
+
+[Examples.](#Examples)
 
 ## Models
 
@@ -22,10 +25,10 @@ A real instance of a Type. This is a Type given form, with values for the associ
 
 ## Examples
 
-The examples below show how NPC, Monster, and Player Character share a parent but have different properties.
+The examples below show how NPC and Player Character share a parent but have different properties.
 
 ### Types
-Types are the templates for Items
+Types are the templates for Items.
 ```
 * Actor
 	* Humanoid
