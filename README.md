@@ -1,3 +1,5 @@
+![Manifest](./src/assets/logo.png)
+
 # Manifest
 
 Manifest is a tool developed originally for Dungeon/Game Masters but it's expanded to fit many roles.
