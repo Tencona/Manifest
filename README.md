@@ -4,6 +4,8 @@
 
 Manifest is a tool developed originally for Dungeon/Game Masters but it's expanded to fit many roles.
 
+_Note: The back-end library API is evolving to fit the in-development GUI, but the Manifest library works._
+
 Manifest is comprised of three models: Type, Property, and Item.
 Using those three components, a developer can easily create endlessly nested classes of inheritance with the ability to quickly generate any number of Items using known values of the same Type.
 
