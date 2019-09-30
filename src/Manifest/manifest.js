@@ -6,6 +6,9 @@
 		Maybe it was just an attempt to keep everything separated, but that's silly. It'd be so much slower.
 		* Things are stored flatly because of JSON being unable to handle a circular reference. Items have a reference to their Type, so Types cannot have an array of their Items.
 
+		!Properties
+		* Properties should not be added via Type. Manifest needs to have an addProperty function where you pass a Type and a Property. It shouldn't be in Type.
+
 TODO Types need a Key! One Key Property that gets searched first before other things get searched. I am such a dumb dumb for not thinking of that sooner.
 */
 
