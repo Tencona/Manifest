@@ -1,5 +1,3 @@
-import { match } from 'minimatch';
-
 export default { executeCommand };
 
 function executeCommand(manifest, userInput) {

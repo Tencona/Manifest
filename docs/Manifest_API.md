@@ -92,5 +92,5 @@
 
 - isValidItem()
     - returns true or false if the Item has all of the required properties
-- setProperty(Property property, obj value)
-    - Ensures the Property exists for that Type then runs Property.testValue(obj value) to make sure it's okay to have this value. If that all checks out, then the value is set
+- setProperty(Property property, obj value) (string name, obj value)
+    - Ensures the Property exists for that Type then runs Property.testValue(obj value) to make sure it's okay to have this value. If that all checks out, then the value is set.
