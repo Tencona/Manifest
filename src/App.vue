@@ -16,7 +16,7 @@ import manifest from "../src/Manifest/manifest";
 
 export default {
 	mounted() {
-		if (!this.$store.state.manifest) {
+		if (!this.$store.state.manifest || !this.$store.state.manifest.Models.Type) {
 			this.$store.dispatch("setManifest", new manifest());
 		}
 	}

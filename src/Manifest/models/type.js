@@ -24,9 +24,7 @@ export default class Type {
 			if (this.properties.map(x => x.name).includes(property.name)) {
 				return new Result(
 					RESULT_TYPE.Error,
-					`Attempted to add a Property in Type.addProperty() but a Property with the same name already exists: ${
-						property.name
-					}`
+					`Attempted to add a Property in Type.addProperty() but a Property with the same name already exists: ${property.name}`
 				);
 			}
 
@@ -46,28 +44,6 @@ export default class Type {
 		if (this.parentType) props = props.concat(this.parentType.properties);
 
 		return props;
-
-		//This needs to grab all properties then traverse up to the `parentType` and get its properties, ignoring the ones that match on any of the names already gathered.
-		/*
-		Sedan.parentType = Car;
-		Sedan.wheels; //Added to list
-
-		Car.parentType = Vehicle;
-		Car.wheels; //This is ignored because we already have a `wheels` property
-		
-		Vehicle.parentType = null;
-		Vehicle.make; //Added to list
-		Vehicle.model; //Added to list
-
-		The Item of this Type would have all of these properties available to it to assign values to.
-		properties = [wheels, make, model];
-		
-		Item.type.properties = [wheels, make, model];
-		Item.wheels = 4;
-		Item.make = 'Honda';
-		Item.model = 'Civic';
-
-		*/
 	}
 	set properties(value) {
 		return value;

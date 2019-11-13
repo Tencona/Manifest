@@ -1,15 +1,13 @@
 /*
 * n o t e s
-? Should Manifest be restructured to put Items inside of Types? It would increase speed in a lot of ways and I can't remember if there was a benefit to structuring it flatly, but I know I had some reason in the past.
-	TODO: Figure out why things are structured flatly instead of in a hierarchy.
-		Did I think about adding Items without a Type? Like adding an Item first? That could be it, but right now Item requires a Type in its constructor.
-		Maybe it was just an attempt to keep everything separated, but that's silly. It'd be so much slower.
-		* Things are stored flatly because of JSON being unable to handle a circular reference. Items have a reference to their Type, so Types cannot have an array of their Items.
-
-		!Properties
-		* Properties should not be added via Type. Manifest needs to have an addProperty function where you pass a Type and a Property. It shouldn't be in Type.
-
 TODO Types need a Key! One Key Property that gets searched first before other things get searched. I am such a dumb dumb for not thinking of that sooner.
+* Types hold Properties
+* Type and Items are 'tables'
+* If you want Items of a Type, you filter out the items array for matching Type.
+
+* Alright so addProperty was moved to Manifest because that's what makes sense, duh. Did some stress testing and at 200k Items it's still sub 100ms to filter them by Type.
+* Need to start on the UI.
+* Make an Item page. It needs to just render out the name and the Item's properties from the Type.
 */
 
 import ManifestConfig from './config';
@@ -20,7 +18,7 @@ export default class Manifest {
 	Models = models;
 
 	constructor() {
-		this.properties = [];
+		// this.properties = [];
 		this.types = [];
 		this.items = [];
 	}
@@ -31,25 +29,24 @@ export default class Manifest {
 			this.items.push(item);
 
 			//This is circular structure. That's why Items are flat and not stored inside of this.items
-			item.type.items.push(item);
+			// item.type.items.push(item);
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Success,
-				`Added Item: \`${item.uuid}\` of Type: \`${item.type.name}\` with \`${
-					item.properties.length
-				}\` properties`,
+				`Added Item: '${item.uuid}' of Type: '${item.type.name}' with '${item.properties.length}' properties`,
 				item
 			);
 		} else
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Error,
-				'Attempted to add a null Item in Manifest.addItem()'
+				`Attempted to add a null Item in Manifest.addItem()`
 			);
 	}
 
 	//Adds a Type to Manifest
 	addType(type) {
 		if (type && type.isValidType) {
-			if (this.types.map(t => t.name).includes(type.name))
+			let foundType = this.types.find(t => t.name === type.name);
+			if (foundType)
 				return new this.Models.Result(
 					this.Config.RESULT_TYPE.Error,
 					`Attempted to add a duplicate Type: ${type.name}`
@@ -58,12 +55,43 @@ export default class Manifest {
 			this.types.push(type);
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Success,
-				`Added new Type: \`${type.name}\` - \`${type.uuid}\``
+				`Added new Type: '${type.name}' - '${type.uuid}'`
 			);
 		} else
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Error,
-				'Attempted to add a null Type in Manifest.addItem()'
+				`Attempted to add a null Type in Manifest.addType()`
+			);
+	}
+
+	//Adds a Type to Manifest
+	addProperty(type, property) {
+		if (type && type.isValidType && property && property.isValidProperty) {
+			//Find Type
+			let foundType = this.types.find(t => t.name === type.name);
+			if (foundType) {
+				//Look for dupe Property
+				let foundProperty = foundType.properties.find(p => p.name === property.name);
+				if (foundProperty) {
+					return new Result(
+						RESULT_TYPE.Error,
+						`Attempted to add a Property to Type (${type.name}) in Manifest.addProperty() but a Property with the same name already exists: ${property.name}`
+					);
+				}
+
+				//Add Property to Type's private Properties
+				foundType._properties.push(property);
+				return new Result(
+					RESULT_TYPE.Success,
+					`Added Property - name: '${property.name}' to Type: '${foundType.name}'
+					\nvalueType: '${property.valueType.name}'
+					\nvalidation: ${property.validation ? 'true' : 'false'}`
+				);
+			}
+		} else
+			return new this.Models.Result(
+				this.Config.RESULT_TYPE.Error,
+				`Attempted to add a Property to a null Type in Manifest.addProperty()`
 			);
 	}
 	//#endregion
