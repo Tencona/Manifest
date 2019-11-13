@@ -12,20 +12,21 @@
 
 <script>
 // import { mapState } from "vuex";
-import manifest from "../src/Manifest/manifest";
+import manifest from '../src/Manifest/manifest';
 
 export default {
 	mounted() {
+		//TODO Fix this. It's just lazy. Don't check for Type. Make a manifest.isValid function
 		if (!this.$store.state.manifest || !this.$store.state.manifest.Models.Type) {
-			this.$store.dispatch("setManifest", new manifest());
+			this.$store.dispatch('setManifest', new manifest());
 		}
-	}
+	},
 };
 </script>
 
 <style>
 #app {
-	font-family: "Avenir", Helvetica, Arial, sans-serif;
+	font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
