@@ -3,6 +3,7 @@
 		<div id="nav">
 			<router-link to="/">Home</router-link>|
 			<router-link to="/dashboard">Dashboard</router-link>|
+			<router-link to="/item">Item</router-link>|
 			<router-link to="/console">Console</router-link>|
 			<router-link to="/about">About</router-link>
 		</div>
@@ -18,7 +19,7 @@ export default {
 	mounted() {
 		if (!this.$store.state.manifest || !this.$store.state.manifest.isValid) {
 			this.$store.dispatch('setManifest', new manifest());
-			console.warn("Had to reinitialize Manifest. Figure out why. Models disappearing?");
+			console.warn('Had to reinitialize Manifest. Figure out why. Models disappearing?');
 		}
 	},
 };

@@ -1,8 +1,4 @@
 # Storage
-*Everything should be considered a collection, like in NoSQL.*
-* Types
-* Properties
-* Items
 
 
 # Types
