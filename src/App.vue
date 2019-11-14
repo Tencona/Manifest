@@ -16,9 +16,9 @@ import manifest from '../src/Manifest/manifest';
 
 export default {
 	mounted() {
-		//TODO Fix this. It's just lazy. Don't check for Type. Make a manifest.isValid function
-		if (!this.$store.state.manifest || !this.$store.state.manifest.Models.Type) {
+		if (!this.$store.state.manifest || !this.$store.state.manifest.isValid) {
 			this.$store.dispatch('setManifest', new manifest());
+			console.warn("Had to reinitialize Manifest. Figure out why. Models disappearing?");
 		}
 	},
 };
