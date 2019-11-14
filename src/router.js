@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Dashboard from './views/Dashboard.vue';
+import Item from './views/Item.vue';
 import Console from './views/Console.vue';
 
 Vue.use(Router);
@@ -19,6 +20,11 @@ export default new Router({
 			path: '/dashboard',
 			name: 'dashboard',
 			component: Dashboard,
+		},
+		{
+			path: '/item',
+			name: 'item',
+			component: Item,
 		},
 		{
 			path: '/console',
