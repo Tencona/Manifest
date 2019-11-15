@@ -8,6 +8,11 @@ TODO Types need a Key! One Key Property that gets searched first before other th
 * Alright so addProperty was moved to Manifest because that's what makes sense, duh. Did some stress testing and at 200k Items it's still sub 100ms to filter them by Type.
 * Need to start on the UI.
 * Make an Item page. It needs to just render out the name and the Item's properties from the Type.
+
+
+
+! Properties should have a reference to their Type's uuid. Why did I not think about that. Then make a getter for type that looks up that type from Manifest
+! Figure out if the arrays can be changed to a dictionary. The id would be the uuid and the value would be the item. That would mean faster lookup and no direct references.
 */
 
 import ManifestConfig from './config';
@@ -112,8 +117,35 @@ export default class Manifest {
 	//#region Remove - Item, Type
 	removeItem(item) {
 		if (item) {
+			let foundIndex = this.items.findIndex(x => x.uuid === item.uuid);
+			if (foundIndex) {
+				let deletedItem = this.items.splice(foundIndex, 1);
+				return new this.Models.Result(this.Config.RESULT_TYPE.Success, `Item removed: ${deletedItem.uuid}`);
+			} else {
+				return new this.Models.Result(
+					this.Config.RESULT_TYPE.Error,
+					`Unable to remove item: ${item.uuid}. Could not locate. Where did you find this item?`
+				);
+			}
 		}
 	}
+
+	removeType(type) {
+		if (type) {
+			let foundIndex = this.types.findIndex(x => x.uuid === type.uuid);
+			if (foundIndex) {
+				let deletedType = this.types.splice(foundIndex, 1);
+				return new this.Models.Result(this.Config.RESULT_TYPE.Success, `Type removed: ${deletedItem.uuid}`);
+			} else {
+				return new this.Models.Result(
+					this.Config.RESULT_TYPE.Error,
+					`Unable to remove type: ${type.uuid}. Could not locate. Where did you find this type?`
+				);
+			}
+		}
+	}
+
+	//Can't remove Property because it doesn't reference its parent. I don't want to iterate every type and then all of its properties.
 
 	//#endregion
 
