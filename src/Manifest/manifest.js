@@ -2,11 +2,11 @@
 * n o t e s
 TODO Types need a Key! One Key Property that gets searched first before other things get searched. I am such a dumb dumb for not thinking of that sooner.
 * Types hold Properties
+? Should Properties be in their own array?
+! Stop doing random work until the structure is decided
 * Type and Items are 'tables'
 * If you want Items of a Type, you filter out the items array for matching Type.
 
-
-! Properties should have a reference to their Type's uuid. Why did I not think about that. Then make a getter for type that looks up that type from Manifest
 ! Figure out if the arrays can be changed to a dictionary. The id would be the uuid and the value would be the item. That would mean faster lookup and no direct references.
 */
 
@@ -75,7 +75,7 @@ export default class Manifest {
 			);
 	}
 
-	//Adds a Property to Manifest
+	//Adds a Property to Type
 	addProperty(type, property) {
 		if (type && type.isValidType && property && property.isValidProperty) {
 			//Find Type
