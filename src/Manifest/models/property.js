@@ -6,6 +6,7 @@ export default class Property {
 		this.name = name;
 		this.valueType = valueType; //Check this against VALUE_TYPES in config
 		this.validation = validation;
+		this.type; //uuid
 	}
 
 	get hasValidValue() {

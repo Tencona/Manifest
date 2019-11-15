@@ -41,8 +41,6 @@ export default class Manifest {
 		if (item && item.isValidItem) {
 			this.items.push(item);
 
-			//This is circular structure. That's why Items are flat and not stored inside of this.items
-			// item.type.items.push(item);
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Success,
 				`Added Item: '${item.uuid}' of Type: '${item.type.name}' with '${item.properties.length}' properties`,
@@ -94,6 +92,8 @@ export default class Manifest {
 
 				//Add Property to Type's private Properties
 				foundType._properties.push(property);
+				//Set Property's Type
+				foundProperty.type = foundType.uuid;
 				return new Result(
 					RESULT_TYPE.Success,
 					`Added Property - name: '${property.name}' to Type: '${foundType.name}'
