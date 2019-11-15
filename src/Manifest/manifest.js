@@ -5,11 +5,6 @@ TODO Types need a Key! One Key Property that gets searched first before other th
 * Type and Items are 'tables'
 * If you want Items of a Type, you filter out the items array for matching Type.
 
-* Alright so addProperty was moved to Manifest because that's what makes sense, duh. Did some stress testing and at 200k Items it's still sub 100ms to filter them by Type.
-* Need to start on the UI.
-* Make an Item page. It needs to just render out the name and the Item's properties from the Type.
-
-
 
 ! Properties should have a reference to their Type's uuid. Why did I not think about that. Then make a getter for type that looks up that type from Manifest
 ! Figure out if the arrays can be changed to a dictionary. The id would be the uuid and the value would be the item. That would mean faster lookup and no direct references.
