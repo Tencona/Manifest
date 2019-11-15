@@ -1,13 +1,20 @@
 /*
 * n o t e s
 TODO Types need a Key! One Key Property that gets searched first before other things get searched. I am such a dumb dumb for not thinking of that sooner.
+
+* * * * * * * * * * * * * * * * * * *
 * Types hold Properties
 ? Should Properties be in their own array?
 ! Stop doing random work until the structure is decided
 * Type and Items are 'tables'
 * If you want Items of a Type, you filter out the items array for matching Type.
 
+* * * * * * * * * * * * * * * * * * *
 ! Figure out if the arrays can be changed to a dictionary. The id would be the uuid and the value would be the item. That would mean faster lookup and no direct references.
+
+* * * * * * * * * * * * * * * * * * *
+? Should an Item be allowed to have multiple Types? There's not a huge reason to say no. Multiple inheritence can be useful.
+* Really the Type could have multiple parent Types. That would make more sense.
 */
 
 import ManifestConfig from './config';
