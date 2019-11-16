@@ -21,15 +21,16 @@ TODO Types need a Key! One Key Property that gets searched first before other th
 
 import ManifestConfig from './config';
 import models from './models';
+import Collection from './collection';
 
 export default class Manifest {
 	Config = ManifestConfig;
 	Models = models;
 
 	constructor() {
-		// this.properties = [];
-		this.types = [];
-		this.items = [];
+		this.properties = new Collection('Properties');
+		this.types = new Collection('Types');
+		this.items = new Collection('Items');
 	}
 
 	get isValid() {
@@ -44,20 +45,47 @@ export default class Manifest {
 		);
 	}
 
-	//#region Add - Item, Type
+	//#region Add - Item, Type, Property
+	//Used for adding any instance of a class to its 'table'
+	//! Move to Collection class?
+	addTo(collection, record) {
+		if (!collection || !record) throw Error('Must provide a collection and a record');
+
+		if (record.isValid) {
+			let foundRecord = collection[record.uuid];
+			if (foundRecord) {
+				//oh no
+				return new this.Models.Result(
+					this.Config.RESULT_TYPE.Error,
+					`Unable to add to ${collection.name}. Record with uuid already exists: ${record.uuid}`,
+					record
+				);
+			} else {
+				collection[record.uuid] = record;
+				return new this.Models.Result(
+					this.Config.RESULT_TYPE.Success,
+					`Successfully added record: ${record.uuid} to ${collection.name}`,
+					record
+				);
+			}
+		} else {
+			return new this.Models.Result(
+				this.Config.RESULT_TYPE.Error,
+				`Unable to add record. Record invalid: ${record.uuid}`,
+				record
+			);
+		}
+	}
+
 	//Adds an Item to Manifest
 	addItem(item) {
-		if (item && item.isValid) {
+		if (this.addTo(this.items, item).isSuccessful) {
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Success,
 				`Added Item: '${item.uuid}' of Type: '${item.type.name}' with '${item.properties.length}' properties`,
 				item
 			);
-		} else
-			return new this.Models.Result(
-				this.Config.RESULT_TYPE.Error,
-				`Attempted to add a null Item in Manifest.addItem()`
-			);
+		} else return new this.Models.Result(this.Config.RESULT_TYPE.Error, `Unable to add Item in Manifest.addItem()`);
 	}
 
 	//Adds a Type to Manifest
