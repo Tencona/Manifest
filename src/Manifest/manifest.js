@@ -47,9 +47,7 @@ export default class Manifest {
 	//#region Add - Item, Type
 	//Adds an Item to Manifest
 	addItem(item) {
-		if (item && item.isValidItem) {
-			this.items.push(item);
-
+		if (item && item.isValid) {
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Success,
 				`Added Item: '${item.uuid}' of Type: '${item.type.name}' with '${item.properties.length}' properties`,
@@ -64,7 +62,7 @@ export default class Manifest {
 
 	//Adds a Type to Manifest
 	addType(type) {
-		if (type && type.isValidType) {
+		if (type && type.isValid) {
 			let foundType = this.types.find(t => t.name === type.name);
 			if (foundType)
 				return new this.Models.Result(
@@ -86,7 +84,7 @@ export default class Manifest {
 
 	//Adds a Property to Type
 	addProperty(type, property) {
-		if (type && type.isValidType && property && property.isValidProperty) {
+		if (type && type.isValid && property && property.isValid) {
 			//Find Type
 			let foundType = this.types.find(t => t.name === type.name);
 			if (foundType) {

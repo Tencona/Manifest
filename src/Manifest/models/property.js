@@ -13,7 +13,7 @@ export default class Property {
 		return this.validation ? this.validation() : true;
 	}
 
-	get isValidProperty() {
+	get isValid() {
 		return !!this.uuid && !!this.name && !!this.valueType;
 	}
 }

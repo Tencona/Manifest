@@ -18,7 +18,7 @@ export default class Item {
 		//A dictionary makes the lookup quick, but the property needs to remain a reference to the original Property in case the validation is updated.
 	}
 
-	get isValidItem() {
+	get isValid() {
 		return !!this.uuid && !!this.type;
 	}
 

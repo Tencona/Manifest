@@ -71,14 +71,14 @@
 
 ## Type
 
-- isValidItem()
+- isValid()
     - returns true or false if the Type has all of the required properties
 
 ---
 
 ## Property
 
-- isValidProperty()
+- isValid()
     - returns true or false if the Property has all of the required properties
 - validation
     - Function that can be used to test if a value is valid to be given to a Property
@@ -90,7 +90,7 @@
 
 ## Item
 
-- isValidItem()
+- isValid()
     - returns true or false if the Item has all of the required properties
 - setProperty(Property property, obj value) (string name, obj value)
     - Ensures the Property exists for that Type then runs Property.testValue(obj value) to make sure it's okay to have this value. If that all checks out, then the value is set.

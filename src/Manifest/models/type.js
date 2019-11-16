@@ -15,12 +15,12 @@ export default class Type {
 		// this.items = [];
 	}
 
-	get isValidType() {
+	get isValid() {
 		return !!this.uuid && !!this.name;
 	}
 
 	addProperty(property) {
-		if (property && property.isValidProperty) {
+		if (property && property.isValid) {
 			if (this.properties.map(x => x.name).includes(property.name)) {
 				return new Result(
 					RESULT_TYPE.Error,
