@@ -11,6 +11,8 @@ TODO Types need a Key! One Key Property that gets searched first before other th
 
 * * * * * * * * * * * * * * * * * * *
 ! Figure out if the arrays can be changed to a dictionary. The id would be the uuid and the value would be the item. That would mean faster lookup and no direct references.
+* Add 100k items, 100 types, and 10 properties per type to arrays (types hold properties?) then do the same using dictionaries where properties are separate
+* Write out all functions but leave them blank then pseudocode dictionary versions
 
 * * * * * * * * * * * * * * * * * * *
 ? Should an Item be allowed to have multiple Types? There's not a huge reason to say no. Multiple inheritence can be useful.
