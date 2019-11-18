@@ -1,12 +1,12 @@
 import { exists, uuid } from '../extensions/utility';
 
 export default class Property {
-	constructor(name, valueType, validation) {
+	constructor(name, type, valueType, validation) {
 		this.uuid = uuid();
 		this.name = name;
 		this.valueType = valueType; //Check this against VALUE_TYPES in config
 		this.validation = validation;
-		this.type; //uuid
+		this.type = type; //uuid
 	}
 
 	get hasValidValue() {
@@ -14,6 +14,6 @@ export default class Property {
 	}
 
 	get isValid() {
-		return !!this.uuid && !!this.name && !!this.valueType;
+		return !!this.uuid && !!this.name && !!this.type && !!this.valueType;
 	}
 }
