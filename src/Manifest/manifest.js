@@ -48,6 +48,8 @@ export default class Manifest {
 	//Adds an Item to Manifest
 	addItem(item) {
 		if (item && item.isValid) {
+			this.items.push(item);
+
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Success,
 				`Added Item: '${item.uuid}' of Type: '${item.type.name}' with '${item.properties.length}' properties`,
