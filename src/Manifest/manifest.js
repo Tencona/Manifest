@@ -1,39 +1,6 @@
 /*
-* n o t e s
-! ---------------------------------------------------------
-! ---------------------------------------------------------
-! ---------------------------------------------------------
-! ---------------------------------------------------------
-! ---------------------------------------------------------
-? Need to make a decision. Crawl up Type hierarchy and make Properties Collection, or leave Properties under Types and that's it.
-* If Properties are their own collection, how do you easily roll up the properties from Types? Right now they're in an array.
-* Maybe Properties don't need to be a higher-level model. Perhaps they could exist just under Types and that's it.
-* Why did I need to reference Properties quickly?
-
-* Looking for Properties wouldn't be too bad? Crawl up the Type inheritence and collect all of their Property uuids in an array, then search the Properties Collection.
-! ---------------------------------------------------------
-! ---------------------------------------------------------
-! ---------------------------------------------------------
-! ---------------------------------------------------------
-! ---------------------------------------------------------
-TODO Types need a Key! One Key Property that gets searched first before other things get searched. I am such a dumb dumb for not thinking of that sooner.
-
-* * * * * * * * * * * * * * * * * * *
-* Types hold Properties
-? Should Properties be in their own array?
-! Stop doing random work until the structure is decided
-* Type and Items are 'tables'
-* If you want Items of a Type, you filter out the items array for matching Type.
-
-* * * * * * * * * * * * * * * * * * *
-! Figure out if the arrays can be changed to a dictionary. The id would be the uuid and the value would be the item. That would mean faster lookup and no direct references.
-* Add 100k items, 100 types, and 10 properties per type to arrays (types hold properties?) then do the same using dictionaries where properties are separate
-* Write out all functions but leave them blank then pseudocode dictionary versions
-
-* * * * * * * * * * * * * * * * * * *
-? Should an Item be allowed to have multiple Types? There's not a huge reason to say no. Multiple inheritence can be useful.
-* Really the Type could have multiple parent Types. That would make more sense.
-*/
+ * n o t e s
+ */
 
 import ManifestConfig from './config';
 import models from './models';

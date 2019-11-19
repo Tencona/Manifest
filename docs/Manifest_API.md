@@ -40,8 +40,7 @@
 - Public Lists
     - Types
         - Array of every Type
-    - Properties
-        - Not sure why the user wants to access Properties directly, but okay
+        - Types have an array of Properties
     - Items
         - Array of every Item
 - Public Models
@@ -53,7 +52,7 @@
     - removeType(string id) (string name) (Type type)
         - Name is viable and required to be unique because it's describing a concept/template. Those shouldn't overlap by name.
     - getType(string id) (string name)
-- Property Functions
+- Property Functions (exist under Type class)
     - addProperty(Type type, Property property)
         - Property will be checked if it's valid before being added
     - removeProperty(Type type, Property property) (Type type, string id) (Type type, string name) (Property property) (string id)
@@ -92,5 +91,5 @@
 
 - isValid()
     - returns true or false if the Item has all of the required properties
-- setProperty(Property property, obj value) (string name, obj value)
+- setProperty(Property property, obj value) (string uuid, obj value)
     - Ensures the Property exists for that Type then runs Property.testValue(obj value) to make sure it's okay to have this value. If that all checks out, then the value is set.

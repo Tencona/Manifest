@@ -4,6 +4,7 @@ import { Result, RESULT_TYPE } from './result';
 import { exists, uuid } from '../extensions/utility';
 
 export default class Type {
+	//TODO Types need a Key! One Key Property that gets searched first before other things get searched. I am such a dumb dumb for not thinking of that sooner.
 	constructor(name) {
 		this.uuid = uuid();
 		this.name = name;
