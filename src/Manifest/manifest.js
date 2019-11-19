@@ -11,7 +11,6 @@ export default class Manifest {
 	Models = models;
 
 	constructor() {
-		this.properties = new Collection('Properties');
 		this.types = new Collection('Types');
 		this.items = new Collection('Items');
 	}
@@ -125,9 +124,6 @@ export default class Manifest {
 			}
 		}
 	}
-
-	//Can't remove Property because it doesn't reference its parent. I don't want to iterate every type and then all of its properties.
-
 	//#endregion
 
 	//#region Search - Item, Type
