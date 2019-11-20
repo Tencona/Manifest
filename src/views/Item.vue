@@ -1,9 +1,10 @@
 <template>
 	<div class="Item">
 		<div id="headerBar">
-			<span id="title">{{item.name}}</span>
-			<span id="type">{{item.type.name}}</span>
-			<span id="uuid">{{item.uuid}}</span>
+			<!-- <span id="title">{{item.name}}</span> -->
+			<span id="type">Name: {{item.type.name}}</span>
+			<br />
+			<span id="uuid">uuid: {{item.uuid}}</span>
 		</div>
 		<div id="body">
 			<div class="propertiesWrapper">
@@ -29,19 +30,24 @@ export default {
 	components: {},
 	props: {},
 	mounted() {
-		console.log(this.manifest);
-		let rIndex = Math.floor(Math.random() * this.manifest.items.length);
-		if (rIndex) {
-			this.item = this.manifest.items[rIndex];
+		let keys = Object.keys(this.manifest.items).slice(1); //Remove 'name'
+		let randomItem = this.manifest.items[keys[Math.floor(Math.random() * keys.length)]];
+
+		if (randomItem) {
+			this.item = randomItem;
 		}
 	},
 	data() {
-		return { item: {} };
+		return { item: this.getDefaultItem() };
 	},
 	computed: {
 		...mapState(['manifest']),
 	},
-	methods: {},
+	methods: {
+		getDefaultItem() {
+			return { uuid: 'uuid', type: {}, properties: {} };
+		},
+	},
 };
 </script>
 
