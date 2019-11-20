@@ -2,20 +2,11 @@ import { Result, RESULT_TYPE } from './result';
 import { exists, uuid } from '../extensions/utility';
 
 export default class Item {
+	//TODO Add support for multiple Types
 	constructor(type) {
 		this.uuid = uuid();
 		this.type = type;
-		this.properties = type.properties;
-		//? Should this be the Property's uuid?
-		//* The page will handle the Property's validation which should be checked before setProperty() is ever called, but the uuid should be what's used.
-		//This will be an item with the Type's Property's name and the Item's value {'name':'Tom','age':42,'spouse':[Item]}
-		//Example:
-		//Item: Car
-		//Property: Wheels (Numeric)
-		//Item.properties = {'Wheels': 4}
-
-		//Update:
-		//A dictionary makes the lookup quick, but the property needs to remain a reference to the original Property in case the validation is updated.
+		this.properties = {};
 	}
 
 	get isValid() {
@@ -23,7 +14,7 @@ export default class Item {
 	}
 
 	setProperty(property, value) {
-		//`property` is just a string that matches the Property.name it refers to
+		//`property` is the Property uuid
 		if (property && value) {
 			let oldValue = this.properties[property];
 			this.properties[property] = value;
@@ -33,5 +24,11 @@ export default class Item {
 				RESULT_TYPE.Error,
 				`Attempted to set Item Property with Property: '${property}' and Value: '${value}'`
 			);
+	}
+
+	removeUnusedProperties() {
+		//TODO this will check this Item's Type's Properties and if it contains a value in `this.properties` that isn't in the Type Properties, it will remove it.
+		//Have to do it here because if I do it on removing a property, I'll have to iterate down it and all of its children then look up all of the items under that Type line then remove the property from all of them.
+		//That's probably better, but Items are referenced one at a time 99% of the time, so it can perform a clean-up on loading.
 	}
 }

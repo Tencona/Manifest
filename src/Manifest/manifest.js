@@ -1,35 +1,18 @@
 /*
-* n o t e s
-TODO Types need a Key! One Key Property that gets searched first before other things get searched. I am such a dumb dumb for not thinking of that sooner.
-
-* * * * * * * * * * * * * * * * * * *
-* Types hold Properties
-? Should Properties be in their own array?
-! Stop doing random work until the structure is decided
-* Type and Items are 'tables'
-* If you want Items of a Type, you filter out the items array for matching Type.
-
-* * * * * * * * * * * * * * * * * * *
-! Figure out if the arrays can be changed to a dictionary. The id would be the uuid and the value would be the item. That would mean faster lookup and no direct references.
-* Add 100k items, 100 types, and 10 properties per type to arrays (types hold properties?) then do the same using dictionaries where properties are separate
-* Write out all functions but leave them blank then pseudocode dictionary versions
-
-* * * * * * * * * * * * * * * * * * *
-? Should an Item be allowed to have multiple Types? There's not a huge reason to say no. Multiple inheritence can be useful.
-* Really the Type could have multiple parent Types. That would make more sense.
-*/
+ * n o t e s
+ */
 
 import ManifestConfig from './config';
 import models from './models';
+import Collection from './collection';
 
 export default class Manifest {
 	Config = ManifestConfig;
 	Models = models;
 
 	constructor() {
-		// this.properties = [];
-		this.types = [];
-		this.items = [];
+		this.types = new Collection('Types');
+		this.items = new Collection('Items');
 	}
 
 	get isValid() {
@@ -47,32 +30,18 @@ export default class Manifest {
 	//#region Add - Item, Type
 	//Adds an Item to Manifest
 	addItem(item) {
-		if (item && item.isValid) {
-			this.items.push(item);
-
+		if (this.items.add(item).isSuccessful) {
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Success,
-				`Added Item: '${item.uuid}' of Type: '${item.type.name}' with '${item.properties.length}' properties`,
+				`Added Item: '${item.uuid}' of Type: '${item.type.name}' with '${item.type.properties.length}' properties`,
 				item
 			);
-		} else
-			return new this.Models.Result(
-				this.Config.RESULT_TYPE.Error,
-				`Attempted to add a null Item in Manifest.addItem()`
-			);
+		} else return new this.Models.Result(this.Config.RESULT_TYPE.Error, `Unable to add Item in Manifest.addItem()`);
 	}
 
 	//Adds a Type to Manifest
 	addType(type) {
-		if (type && type.isValid) {
-			let foundType = this.types.find(t => t.name === type.name);
-			if (foundType)
-				return new this.Models.Result(
-					this.Config.RESULT_TYPE.Error,
-					`Attempted to add a duplicate Type: ${type.name}`
-				);
-
-			this.types.push(type);
+		if (this.types.add(type).isSuccessful) {
 			return new this.Models.Result(
 				this.Config.RESULT_TYPE.Success,
 				`Added new Type: '${type.name}' - '${type.uuid}'`
@@ -84,38 +53,7 @@ export default class Manifest {
 			);
 	}
 
-	//Adds a Property to Type
-	addProperty(type, property) {
-		if (type && type.isValid && property && property.isValid) {
-			//Find Type
-			let foundType = this.types.find(t => t.name === type.name);
-			if (foundType) {
-				//Look for dupe Property
-				let foundProperty = foundType.properties.find(p => p.name === property.name);
-				if (foundProperty) {
-					return new Result(
-						RESULT_TYPE.Error,
-						`Attempted to add a Property to Type (${type.name}) in Manifest.addProperty() but a Property with the same name already exists: ${property.name}`
-					);
-				}
-
-				//Add Property to Type's private Properties
-				foundType._properties.push(property);
-				//Set Property's Type
-				foundProperty.type = foundType.uuid;
-				return new Result(
-					RESULT_TYPE.Success,
-					`Added Property - name: '${property.name}' to Type: '${foundType.name}'
-					\nvalueType: '${property.valueType.name}'
-					\nvalidation: ${property.validation ? 'true' : 'false'}`
-				);
-			}
-		} else
-			return new this.Models.Result(
-				this.Config.RESULT_TYPE.Error,
-				`Attempted to add a Property to a null Type in Manifest.addProperty()`
-			);
-	}
+	//* Adds a Property doesn't need to exist because you add Properties to Types directly.
 	//#endregion
 
 	//#region Remove - Item, Type
@@ -148,9 +86,6 @@ export default class Manifest {
 			}
 		}
 	}
-
-	//Can't remove Property because it doesn't reference its parent. I don't want to iterate every type and then all of its properties.
-
 	//#endregion
 
 	//#region Search - Item, Type

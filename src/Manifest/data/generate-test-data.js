@@ -50,8 +50,9 @@ export default {
 	//#endregion
 
 	//#region GetRandom
-	getRandomElement: function(arr) {
-		return arr[Math.floor(Math.random() * arr.length)];
+	getRandomElement: function(collection) {
+		let arr = Object.keys(collection).slice(1); //Remove 'name'
+		return collection[arr[Math.floor(Math.random() * arr.length)]];
 	},
 	getRandomItem: function() {
 		return this.getRandomElement(this.Manifest.items);
@@ -79,12 +80,12 @@ export default {
 
 			let propertiesPerType = this.getRandomInt(1, this.config.numProperties);
 			for (let p = 0; p < propertiesPerType; p++) {
-				type.addProperty(this.generateProperty()[0]);
+				type.addProperty(this.generateProperty(type)[0]);
 			}
 
 			this.Manifest.addType(type);
 		}
-		return this.Manifest.types.slice(number * -1);
+		// return this.Manifest.types.slice(number * -1);
 	},
 	generateItem: function(number = 1) {
 		let arr = [];
@@ -93,19 +94,20 @@ export default {
 
 			this.Manifest.addItem(item);
 		}
-		return this.Manifest.items.slice(number * -1);
+		// return this.Manifest.items.slice(number * -1);
 	},
-	generateProperty: function(number = 1) {
+	generateProperty: function(type, number = 1) {
 		let arr = [];
 		for (let i = 0; i < number; i++) {
 			let property = new this.Manifest.Models.Property(
 				this.getRandomString(5, 'aA'),
+				type.uuid,
 				this.getRandomPropertyType()
 			);
 
-			this.properties.push(property);
+			arr.push(property);
 		}
-		return this.properties.slice(number * -1);
+		return arr;
 	},
 	//#endregion
 };
