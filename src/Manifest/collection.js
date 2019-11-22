@@ -1,18 +1,20 @@
 import { Result, RESULT_TYPE } from '@/Manifest/models/result';
 export default class Collection {
 	constructor(name) {
-		this.name = name;
+		this._ = {};
+		this._.name = name;
 		//? Maybe hide all of the properties like "name" and whatever else I add under "_" and then on `get` if `obj[prop]` is null, check to see if `obj._[prop]` has it, otherwise, return undefined
 		//* That should be quick enough and allow me to still do things like `collection.name`
 		//* That's janky. I love it.
 
+		//? Is there a performance loss to this?
 		return new Proxy(this, {
 			get: function(obj, prop) {
-				return prop in obj ? obj[prop] : undefined;
+				return prop in obj ? obj[prop] : prop in obj._ ? obj._[prop] : undefined;
 			},
 
 			set: function(obj, prop, value) {
-				obj[prop] = value;
+				prop in obj._ ? (obj._[prop] = value) : (obj[prop] = value);
 				return true;
 			},
 		});
