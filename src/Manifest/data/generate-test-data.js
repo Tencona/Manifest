@@ -51,7 +51,8 @@ export default {
 
 	//#region GetRandom
 	getRandomElement: function(collection) {
-		let arr = Object.keys(collection).slice(1); //Remove 'name'
+		//TODO add number to request an amount of random elements so the slice can be cached
+		let arr = Object.keys(collection).slice(1); //Remove hidden properties under '_'
 		return collection[arr[Math.floor(Math.random() * arr.length)]];
 	},
 	getRandomItem: function() {

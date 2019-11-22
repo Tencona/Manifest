@@ -9,10 +9,14 @@ export default class Collection {
 
 		//? Is there a performance loss to this?
 		return new Proxy(this, {
+			//If the prop exists in the obj, return it, otherwise look under obj._
+			//This means you can access .name and add any other number of properties and have them all easily contained in one object
 			get: function(obj, prop) {
 				return prop in obj ? obj[prop] : prop in obj._ ? obj._[prop] : undefined;
 			},
 
+			//Checks to see if the property exists in the hidden properties first because otherwise it'll store everything there
+			//If it's not a hiddeen property, it gets added to the collection
 			set: function(obj, prop, value) {
 				prop in obj._ ? (obj._[prop] = value) : (obj[prop] = value);
 				return true;
