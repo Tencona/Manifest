@@ -13,13 +13,18 @@
 
 <script>
 // import { mapState } from "vuex";
-import manifest from '../src/Manifest/manifest';
+import manifest from '@/Manifest/manifest';
+import gendata from '@/Manifest/data/generate-test-data';
 
 export default {
 	mounted() {
 		if (!this.$store.state.manifest || !this.$store.state.manifest.isValid) {
 			this.$store.dispatch('setManifest', new manifest());
 			console.warn('Had to reinitialize Manifest. Figure out why. Models disappearing?');
+		}
+		if (this.$store.state.manifest.items.length === 0) {
+			gendata.init(this.$store.state.manifest);
+			gendata.generate();
 		}
 	},
 };
