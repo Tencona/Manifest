@@ -7,16 +7,14 @@
 			<span id="uuid">uuid: {{item.uuid}}</span>
 		</div>
 		<div id="body">
-			<div class="propertiesWrapper">
-				<div class="properties">
-					<!-- <DiaryEntry
-						class="property"
-						v-for="(property, i) in item.type.properties"
-						:key="i"
-						v-bind:entry.sync="property"
-						:index="i"
-					/>-->
-				</div>
+			<div class="properties">
+				<Property
+					class="property"
+					v-for="(property, i) in item.type.properties"
+					:key="i"
+					v-bind:property.sync="property"
+					:index="i"
+				/>
 			</div>
 		</div>
 	</div>
@@ -24,10 +22,13 @@
 
 <script>
 import { mapState } from 'vuex';
+import Property from '@/components/Property';
 
 export default {
 	name: 'Item',
-	components: {},
+	components: {
+		Property,
+	},
 	props: {},
 	mounted() {
 		let keys = Object.keys(this.manifest.items).slice(1); //Remove 'name'
@@ -53,5 +54,9 @@ export default {
 
 <style scoped>
 .Item {
+}
+
+.properties {
+	background: rgb(235, 235, 235);
 }
 </style>
