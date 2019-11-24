@@ -1,7 +1,6 @@
-import Manifest from '../manifest';
-import ManifestConfig from '../config';
+import ManifestConfig from '@/Manifest/config';
 import { Result, RESULT_TYPE } from './result';
-import { exists, uuid } from '../extensions/utility';
+import { exists, uuid } from '@/Manifest/extensions/utility';
 
 export default class Type {
 	constructor(name) {

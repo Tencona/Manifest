@@ -2,9 +2,9 @@
  * n o t e s
  */
 
-import ManifestConfig from './config';
-import models from './models';
-import Collection from './collection';
+import ManifestConfig from '@/Manifest/config';
+import models from '@/Manifest/models';
+import Collection from '@/Manifest/collection';
 
 export default class Manifest {
 	Config = ManifestConfig;

@@ -1,4 +1,4 @@
-import { exists, uuid } from '../extensions/utility';
+import { exists, uuid } from '@/Manifest/extensions/utility';
 
 export default class Property {
 	constructor(name, type, valueType, validation) {

@@ -1,4 +1,4 @@
-import ManifestConfig from '../config';
+import ManifestConfig from '@/Manifest/config';
 
 export class Result {
 	constructor(resultType, message, payload, forceLog) {
@@ -13,23 +13,19 @@ export class Result {
 		switch (resultType) {
 			case 1: //Success
 				this.isSuccessful = true;
-				if ((ManifestConfig.logSuccesses || forceLog) && message)
-					console.log(this.message);
+				if ((ManifestConfig.logSuccesses || forceLog) && message) console.log(this.message);
 				break;
 			case 2: //Warning
 				this.isWarning = true;
-				if ((ManifestConfig.logWarnings || forceLog) && message)
-					console.warn(this.message);
+				if ((ManifestConfig.logWarnings || forceLog) && message) console.warn(this.message);
 				break;
 			case 3: //Error
 				this.isError = true;
-				if ((ManifestConfig.logErrors || forceLog) && message)
-					console.warn(this.message);
+				if ((ManifestConfig.logErrors || forceLog) && message) console.warn(this.message);
 				break;
 			case 3: //Critical Error
 				this.isCriticalError = true;
-				if ((ManifestConfig.logCriticalErrors || forceLog) && message)
-					console.error(this.message);
+				if ((ManifestConfig.logCriticalErrors || forceLog) && message) console.error(this.message);
 				break;
 		}
 	}

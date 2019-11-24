@@ -1,5 +1,5 @@
-import { Result, RESULT_TYPE } from './result';
-import { exists, uuid } from '../extensions/utility';
+import { Result, RESULT_TYPE } from '@/Manifest/models/result';
+import { exists, uuid } from '@/Manifest/extensions/utility';
 
 export default class Item {
 	//TODO Add support for multiple Types
