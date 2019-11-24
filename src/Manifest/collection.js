@@ -3,6 +3,7 @@ export default class Collection {
 	constructor(name) {
 		this._ = {};
 		this._.name = name;
+		this._.length = 0;
 		//? Maybe hide all of the properties like "name" and whatever else I add under "_" and then on `get` if `obj[prop]` is null, check to see if `obj._[prop]` has it, otherwise, return undefined
 		//* That should be quick enough and allow me to still do things like `collection.name`
 		//* That's janky. I love it.
@@ -17,6 +18,9 @@ export default class Collection {
 
 			//Checks to see if the property exists in the hidden properties first because otherwise it'll store everything there
 			//If it's not a hiddeen property, it gets added to the collection
+			//TODO? Should this set even be allowed?
+			//? If the record doesn't exist, call add()?
+			//* Calling add() if it doens't exist makes sense because if it *does* exist then it's just updating that value. But that shouldn't really ever happen either?
 			set: function(obj, prop, value) {
 				prop in obj._ ? (obj._[prop] = value) : (obj[prop] = value);
 				return true;
@@ -37,9 +41,12 @@ export default class Collection {
 			);
 		} else if (!foundRecord && record.isValid) {
 			this[record.uuid] = record;
+			this.length++;
 			return new Result(RESULT_TYPE.Success, `Successfully added record: ${record.uuid} to ${this.name}`, record);
 		} else {
 			return new Result(RESULT_TYPE.Error, `Unable to add record. Record invalid: ${record.uuid}`, record);
 		}
 	}
+
+	//TODO remove()
 }
