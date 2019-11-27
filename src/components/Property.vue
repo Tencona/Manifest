@@ -3,15 +3,15 @@
 		<div class="name" :title="'uuid: ' + property.uuid">{{property.name}}</div>
 		<div v-if="property.valueType.name === 'Text'">
 			Text Property
-			<input v-model="propValue" />
+			<input v-model="value" @input="valueChanged" />
 		</div>
 		<div v-else-if="property.valueType.name === 'Numeric'">
 			Numeric Property
-			<input v-model="propValue" />
+			<input v-model="value" @input="valueChanged" />
 		</div>
 		<div v-else-if="property.valueType.name === 'Date'">
 			Date Property
-			<input v-model="propValue" />
+			<input v-model="value" @input="valueChanged" />
 		</div>
 	</div>
 </template>
@@ -29,11 +29,17 @@ export default {
 	},
 	data() {
 		return {
-			propValue: '', //TODO Whenever this value changes, check to see if it passes the Property validation, then signal up to the Item to set its value
+			value: '', //TODO Whenever this value changes, check to see if it passes the Property validation, then signal up to the Item to set its value
 		};
 	},
 	computed: {},
-	methods: {},
+	methods: {
+		valueChanged() {
+			//? Debounce this?
+			if (!this.property.validation || (this.property.validation && this.property.validation(this.value)))
+				this.$emit('value-changed', this.property, this.value);
+		},
+	},
 };
 </script>
 

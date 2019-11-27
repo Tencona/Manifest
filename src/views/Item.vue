@@ -14,6 +14,7 @@
 					:key="i"
 					v-bind:property.sync="property"
 					:index="i"
+					@value-changed="valueChanged"
 				/>
 			</div>
 		</div>
@@ -47,6 +48,9 @@ export default {
 	methods: {
 		getDefaultItem() {
 			return { uuid: 'uuid', type: {}, properties: {} };
+		},
+		valueChanged(property, value) {
+			console.log(`Set Item Property: ${property.name} > ${value}`);
 		},
 	},
 };
