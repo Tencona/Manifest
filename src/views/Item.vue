@@ -1,10 +1,16 @@
 <template>
 	<div class="Item">
 		<div id="headerBar">
-			<!-- <span id="title">{{item.name}}</span> -->
-			<span id="type">Name: {{item.type.name}}</span>
-			<br />
-			<span id="uuid">uuid: {{item.uuid}}</span>
+			<div class="headLeft">
+				left
+				<!-- <span id="title">{{item.name}}</span> -->
+				<span id="type">Name: {{item.type.name}}</span>
+				&nbsp;
+				<span id="uuid">uuid: {{item.uuid.substr(0,8)}}</span>
+			</div>
+			<div class="headRight">
+				<button id="btnAddProperty" @click="editMode = !editMode">{{editMode ? "Save" : "Edit"}}</button>
+			</div>
 		</div>
 		<div id="body">
 			<div class="properties">
@@ -40,7 +46,7 @@ export default {
 		}
 	},
 	data() {
-		return { item: this.getDefaultItem() };
+		return { item: this.getDefaultItem(), editMode: false };
 	},
 	computed: {
 		...mapState(['manifest']),
@@ -58,6 +64,14 @@ export default {
 
 <style scoped>
 .Item {
+	display: flex;
+	flex-direction: column;
+}
+
+#headerBar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 .properties {
