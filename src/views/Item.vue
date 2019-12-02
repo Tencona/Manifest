@@ -75,6 +75,6 @@ export default {
 }
 
 .properties {
-	background: rgb(235, 235, 235);
+	/* background: rgb(235, 235, 235); */
 }
 </style>
