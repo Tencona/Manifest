@@ -29,7 +29,7 @@ export default class Collection {
 	}
 
 	add(record) {
-		if (!record) throw Error('Must provide a collection and a record');
+		if (!record) throw Error('Must provide and a record');
 
 		let foundRecord = this[record.uuid];
 		if (foundRecord) {
@@ -48,5 +48,20 @@ export default class Collection {
 		}
 	}
 
-	//TODO remove()
+	remove(record) {
+		if (!record) throw Error('Must provide a record');
+
+		let foundRecord = this[record.uuid];
+		if (foundRecord) {
+			//oh yes
+			delete this[record.uuid];
+			return new Result(RESULT_TYPE.Success, `Removed record: ${record.uuid}`, record);
+		} else {
+			return new Result(
+				RESULT_TYPE.Warning,
+				`Unable to remove record - record not part of the collection: ${record.uuid}`,
+				record
+			);
+		}
+	}
 }
