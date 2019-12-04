@@ -76,8 +76,14 @@ export default {
 		for (let i = 0; i < number; i++) {
 			let type = new this.Manifest.Models.Type(this.getRandomString(5, 'aA'));
 
-			if (this.Manifest.types.length > 0 && this.chance(20)) {
-				type.parentType = this.getRandomType(); //Not going to grab itself because it's not in `this.types` yet
+			function addTagType(that, type) {
+				type.typeTags.add(that.getRandomType()); //Not going to grab itself because it's not in `this.types` yet
+			}
+
+			if (this.Manifest.types.length > 0 && this.chance(40)) {
+				do {
+					addTagType(this, type);
+				} while (this.chance(20));
 			}
 
 			let propertiesPerType = this.getRandomInt(1, this.config.numProperties);

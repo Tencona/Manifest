@@ -1,13 +1,13 @@
+import Collection from '@/Manifest/collection';
 import ManifestConfig from '@/Manifest/config';
-import { Result, RESULT_TYPE } from './result';
+import { Result, RESULT_TYPE } from '@/Manifest/models/result';
 import { exists, uuid } from '@/Manifest/extensions/utility';
 
 export default class Type {
 	constructor(name) {
 		this.uuid = uuid();
 		this.name = name;
-		this.parentType = undefined;
-		this.pageLayout = undefined; //Unsure how to handle this.
+		this.typeTags = new Collection('TypeTags'); //Unsure how to handle this.
 		this._properties = [];
 	}
 
@@ -60,7 +60,11 @@ export default class Type {
 	get properties() {
 		//Combine all parent Types and with this._properties
 		let props = this._properties;
-		if (this.parentType) props = props.concat(this.parentType.properties);
+
+		let types = this.typeTags;
+		let arr = Object.keys(this.typeTags); //Remove hidden properties under '_'
+		if (arr[0] === '_') arr = arr.slice(1);
+		arr.forEach(uuid => (props = props.concat(types[uuid].properties)));
 
 		return props;
 	}
