@@ -1,13 +1,13 @@
+import Collection from '@/Manifest/collection';
 import ManifestConfig from '@/Manifest/config';
-import { Result, RESULT_TYPE } from './result';
+import { Result, RESULT_TYPE } from '@/Manifest/models/result';
 import { exists, uuid } from '@/Manifest/extensions/utility';
 
 export default class Type {
 	constructor(name) {
 		this.uuid = uuid();
 		this.name = name;
-		this.parentType = undefined;
-		this.pageLayout = undefined; //Unsure how to handle this.
+		this.typeTags = new Collection('TypeTags'); //Unsure how to handle this.
 		this._properties = [];
 	}
 
@@ -57,10 +57,43 @@ export default class Type {
 			);
 	}
 
+	getTaggedProperties(seenTypes) {
+		//Combine all parent Types and with this._properties
+		let props = this._properties;
+
+		if (seenTypes.indexOf(this.uuid) === -1) {
+			seenTypes.push(this.uuid);
+		}
+		let types = this.typeTags;
+		let arr = Object.keys(this.typeTags); //Remove hidden properties under '_'
+		if (arr[0] === '_') arr = arr.slice(1);
+
+		//Iterate over every seen type and remove them from arr so we don't call them again
+		for (let i = 0; i < seenTypes.length; i++) {
+			let index = arr.indexOf(seenTypes[i]);
+			if (index !== -1) arr.splice(index, 1);
+		}
+
+		arr.forEach(uuid => {
+			props = props.concat(types[uuid].getTaggedProperties(seenTypes));
+		});
+
+		return props;
+	}
+
 	get properties() {
 		//Combine all parent Types and with this._properties
 		let props = this._properties;
-		if (this.parentType) props = props.concat(this.parentType.properties);
+
+		//Getting properties from this object means we're at the start so add ourselves to the seenTypes dictionary
+		let seenTypes = [];
+		seenTypes.push(this.uuid);
+		let types = this.typeTags;
+		let arr = Object.keys(this.typeTags); //Remove hidden properties under '_'
+		if (arr[0] === '_') arr = arr.slice(1);
+		arr.forEach(uuid => {
+			props = props.concat(types[uuid].getTaggedProperties(seenTypes));
+		});
 
 		return props;
 	}
