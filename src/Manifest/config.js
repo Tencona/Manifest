@@ -10,6 +10,7 @@ export default {
 	logErrors: true,
 	logCriticalErrors: true,
 
+	//TODO Fix this. I hate it.
 	VALUE_TYPES: Object.freeze({
 		TEXT: { value: 0, name: 'Text' },
 		NUMERIC: { value: 1, name: 'Numeric' },

@@ -23,6 +23,7 @@
 					@value-changed="valueChanged"
 				/>
 			</div>
+			<AddProperty v-show="editMode" @addProperty="propertyAdded" />
 		</div>
 	</div>
 </template>
@@ -30,11 +31,13 @@
 <script>
 import { mapState } from 'vuex';
 import Property from '@/components/Property';
+import AddProperty from '@/components/AddProperty';
 
 export default {
 	name: 'Item',
 	components: {
 		Property,
+		AddProperty,
 	},
 	props: {},
 	mounted() {
@@ -60,6 +63,16 @@ export default {
 		},
 		valueChanged(property, value) {
 			console.log(`Set Item Property: ${property.name} > ${value}`);
+		},
+		propertyAdded(name, valType) {
+			let valueType = Object.entries(this.manifest.Config.VALUE_TYPES)
+				.map(x => x[1])
+				.find(x => x.name === valType);
+			if (!valueType) {
+				console.error('Unable to match value type when adding property');
+			}
+
+			this.item.type.addProperty(new this.manifest.Models.Property(name, this.item.type.uuid, valueType));
 		},
 	},
 };
