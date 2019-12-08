@@ -71,7 +71,7 @@ export default {
 			if (!valueType) {
 				console.error('Unable to match value type when adding property');
 			}
-
+			//TODO on success of adding a property, emit to `AddProperty` that it needs to clear its name field
 			this.item.type.addProperty(new this.manifest.Models.Property(name, this.item.type.uuid, valueType));
 		},
 	},
