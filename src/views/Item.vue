@@ -92,5 +92,9 @@ export default {
 
 .properties {
 	/* background: rgb(235, 235, 235); */
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	padding: 10px;
 }
 </style>
