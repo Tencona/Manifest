@@ -7,7 +7,8 @@
 				<router-link to="/dashboard">Dashboard</router-link>|
 				<router-link to="/item">Item</router-link>|
 				<router-link to="/console">Console</router-link>|
-				<router-link to="/about">About</router-link>
+				<router-link to="/about">About</router-link>|
+				<router-link to="/sandbox">Sandbox</router-link>
 			</div>
 		</div>
 		<router-view />
