@@ -2,7 +2,6 @@
 	<div class="Item">
 		<div id="headerBar">
 			<div class="headLeft">
-				left
 				<!-- <span id="title">{{item.name}}</span> -->
 				<span id="type">Name: {{item.type.name}}</span>
 				&nbsp;
@@ -13,16 +12,32 @@
 			</div>
 		</div>
 		<div id="body">
-			<div class="properties">
-				<Property
-					class="property"
-					v-for="(property, i) in item.type.properties"
-					:key="i"
-					v-bind:property.sync="property"
-					:index="i"
-					@value-changed="valueChanged"
-				/>
-			</div>
+			<grid-layout
+				:layout.sync="propertiesLayout"
+				:col-num="12"
+				:row-height="30"
+				:is-draggable="true"
+				:is-resizable="true"
+				:is-mirrored="false"
+				:prevent-overlap="true"
+				:vertical-compact="true"
+				:margin="[10, 10]"
+				:use-css-transforms="true"
+			>
+				<grid-item
+					class="gridItem"
+					v-for="property in propertiesLayout"
+					:x="property.x"
+					:y="property.y"
+					:w="property.w"
+					:h="property.h"
+					:i="property.i"
+					:key="property.prop.uuid"
+					:dragIgnoreFrom="'.propertyWrap'"
+				>
+					<Property class="property" v-bind:property.sync="property.prop" @value-changed="valueChanged"></Property>
+				</grid-item>
+			</grid-layout>
 			<AddProperty v-show="editMode" @addProperty="propertyAdded" />
 		</div>
 	</div>
@@ -32,10 +47,13 @@
 import { mapState } from 'vuex';
 import Property from '@/components/Property';
 import AddProperty from '@/components/AddProperty';
+import VueGridLayout from 'vue-grid-layout';
 
 export default {
 	name: 'Item',
 	components: {
+		GridLayout: VueGridLayout.GridLayout,
+		GridItem: VueGridLayout.GridItem,
 		Property,
 		AddProperty,
 	},
@@ -50,9 +68,30 @@ export default {
 		if (randomItem) {
 			this.item = randomItem;
 		}
+
+		//Set up layout for item
+		let layout = [];
+		let xa = 0;
+		let ya = 0;
+		let width = 4;
+		let height = 2;
+		// debugger;
+		this.item.type.properties.forEach((property, i) => {
+			layout.push({
+				x: width * (i % 3),
+				y: ya,
+				w: width,
+				h: height,
+				i: i,
+				prop: property,
+			});
+			if (i % 3 == 2) ya += height;
+		});
+
+		this.propertiesLayout = layout;
 	},
 	data() {
-		return { item: this.getDefaultItem(), editMode: false };
+		return { item: this.getDefaultItem(), editMode: false, propertiesLayout: [] };
 	},
 	computed: {
 		...mapState(['manifest']),
@@ -96,5 +135,9 @@ export default {
 	flex-direction: row;
 	flex-wrap: wrap;
 	padding: 10px;
+}
+
+.gridItem {
+	background: white;
 }
 </style>

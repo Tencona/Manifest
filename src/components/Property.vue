@@ -1,6 +1,7 @@
 <template>
 	<div class="Property">
-		<div class="nameWrap">
+		<div class="header">Header</div>
+		<div class="propertyWrap">
 			<div class="propName" :title="'uuid: ' + property.uuid">{{property.name}}</div>
 			<div class v-if="property.valueType.name === 'Text'">
 				<div class="propertyTypeDisplay">T</div>
@@ -13,6 +14,7 @@
 			</div>
 			<input v-model="value" @input="valueChanged" />
 		</div>
+		<div class="footer">Footer</div>
 	</div>
 </template>
 
@@ -25,7 +27,7 @@ export default {
 		index: Number,
 	},
 	mounted() {
-		console.log(`Loading Property: ${this.property}`);
+		console.log(`Loading Property: ${this.property.uuid}`);
 	},
 	data() {
 		return {
@@ -50,10 +52,10 @@ input {
 }
 .Property {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 }
 
-.nameWrap {
+.propertyWrap {
 	display: flex;
 	flex-direction: row;
 	padding: 0.4em 0.2em;
