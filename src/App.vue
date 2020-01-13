@@ -3,11 +3,11 @@
 		<div id="nav">
 			<img id="navlogo" alt="Manifest logo" src="@/assets/logo.png" />
 			<div id="navLinks">
-				<router-link to="/">Home</router-link>|
-				<router-link to="/dashboard">Dashboard</router-link>|
-				<router-link to="/item">Item</router-link>|
-				<router-link to="/console">Console</router-link>|
-				<router-link to="/about">About</router-link>|
+				<router-link to="/">Home</router-link>
+				<router-link to="/dashboard">Dashboard</router-link>
+				<router-link to="/item">Item</router-link>
+				<router-link to="/console">Console</router-link>
+				<router-link to="/about">About</router-link>
 				<router-link to="/sandbox">Sandbox</router-link>
 			</div>
 		</div>
@@ -36,7 +36,7 @@ export default {
 
 <style>
 html {
-	background-color: rgb(32, 32, 35);
+	background-color: white;
 }
 
 #app {
@@ -48,7 +48,13 @@ html {
 }
 #nav {
 	display: flex;
+	padding: 8px;
+	height: 60px;
 	flex-direction: row;
+	background: linear-gradient(180deg, #ab8af4 0%, #6e37eb 100%);
+	/* Card Elevation 2 */
+	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.23), 0px 3px 6px rgba(0, 0, 0, 0.16);
+	border-radius: 8px;
 }
 
 #navLinks {
@@ -57,12 +63,14 @@ html {
 
 #nav a {
 	font-weight: bold;
-	color: rgb(112, 112, 112);
+	color: rgb(85, 65, 135);
 	text-decoration-line: none;
+	padding: 0px 8px 0px 8px;
 }
 
 #nav a.router-link-exact-active {
-	color: rgb(110, 55, 235);
+	color: white;
+	font-size: 115%;
 }
 
 #nav img {

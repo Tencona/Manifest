@@ -49,6 +49,7 @@ export default {
 input {
 	border: none;
 	border-radius: 0.2em;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.23) inset;
 }
 .Property {
 	display: flex;
@@ -58,7 +59,7 @@ input {
 .propertyWrap {
 	display: flex;
 	flex-direction: row;
-	padding: 0.4em 0.2em;
+	padding: 0.4em 0.2em 0.4em 0.2em;
 }
 
 .propertyTypeDisplay {
