@@ -71,27 +71,27 @@ export default {
 
 		//Set up layout for item
 		let layout = [];
-		let xa = 0;
-		let ya = 0;
-		let width = 4;
-		let height = 2;
 		// debugger;
 		this.item.type.properties.forEach((property, i) => {
-			layout.push({
-				x: width * (i % 3),
-				y: ya,
-				w: width,
-				h: height,
-				i: i,
+			this.propertiesLayout.push({
+				x: this.layoutConfig.width * (this.layoutConfig.index % 3),
+				y: this.layoutConfig.ya,
+				w: this.layoutConfig.width,
+				h: this.layoutConfig.height,
+				i: this.layoutConfig.index,
 				prop: property,
 			});
-			if (i % 3 == 2) ya += height;
+			if (this.layoutConfig.index % 3 == 2) this.layoutConfig.ya += this.layoutConfig.height;
+			this.layoutConfig.index++;
 		});
-
-		this.propertiesLayout = layout;
 	},
 	data() {
-		return { item: this.getDefaultItem(), editMode: false, propertiesLayout: [] };
+		return {
+			item: this.getDefaultItem(),
+			editMode: false,
+			propertiesLayout: [],
+			layoutConfig: { xa: 0, ya: 0, width: 4, height: 2, index: 0 },
+		};
 	},
 	computed: {
 		...mapState(['manifest']),
@@ -111,7 +111,21 @@ export default {
 				console.error('Unable to match value type when adding property');
 			}
 			//TODO on success of adding a property, emit to `AddProperty` that it needs to clear its name field
-			this.item.type.addProperty(new this.manifest.Models.Property(name, this.item.type.uuid, valueType));
+			let newProperty = new this.manifest.Models.Property(name, this.item.type.uuid, valueType);
+			let result = this.item.type.addProperty(newProperty);
+			if (result.isSuccessful) {
+				//Add property to grid
+				this.propertiesLayout.push({
+					x: this.layoutConfig.width * (this.layoutConfig.index % 3),
+					y: this.layoutConfig.ya,
+					w: this.layoutConfig.width,
+					h: this.layoutConfig.height,
+					i: this.layoutConfig.index,
+					prop: newProperty,
+				});
+				if (this.layoutConfig.index % 3 == 2) this.layoutConfig.ya += this.layoutConfig.height;
+				this.layoutConfig.index++;
+			}
 		},
 	},
 };
@@ -130,7 +144,6 @@ export default {
 }
 
 .properties {
-	/* background: rgb(235, 235, 235); */
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
