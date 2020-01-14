@@ -77,7 +77,7 @@ export default class Type {
 			}
 
 			arr.forEach(uuid => {
-				props = new Map(props, types.get(uuid).getTaggedProperties(seenTypes));
+				props = new Map([...props, ...types.get(uuid).getTaggedProperties(seenTypes)]);
 			});
 		}
 		return props;
@@ -92,7 +92,7 @@ export default class Type {
 		seenTypes.push(this.uuid);
 		let types = this.typeTags;
 		this.typeTags.forEach((type, uuid) => {
-			props = new Map(props, types.get(uuid).getTaggedProperties(seenTypes));
+			props = new Map([...props, ...types.get(uuid).getTaggedProperties(seenTypes)]);
 		});
 
 		return new Collection('Properties', props);
