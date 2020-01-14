@@ -8,7 +8,7 @@ export default class Type {
 		this.uuid = uuid();
 		this.name = name;
 		this.typeTags = new Collection('TypeTags'); //Unsure how to handle this.
-		this._properties = [];
+		this._properties = new Collection('Properties');
 	}
 
 	get isValid() {
@@ -17,14 +17,15 @@ export default class Type {
 
 	addProperty(property) {
 		if (property && property.isValid) {
-			if (this.properties.map(x => x.name).includes(property.name)) {
+			//Name matters, not uuid, because this is user-facing
+			if (this.properties.find(x => x.name === property.name)) {
 				return new Result(
 					RESULT_TYPE.Error,
 					`Attempted to add a Property in Type.addProperty() but a Property with the same name already exists: ${property.name}`
 				);
 			}
 
-			this._properties.push(property);
+			this._properties.set(property.uuid, property);
 			return new Result(
 				RESULT_TYPE.Success,
 				`Added Property - name: '${property.name}'\nvalueType: '${property.valueType.name}'\nvalidation: ${
@@ -64,40 +65,39 @@ export default class Type {
 		if (seenTypes.indexOf(this.uuid) === -1) {
 			seenTypes.push(this.uuid);
 		}
-		let types = this.typeTags;
-		let arr = Object.keys(this.typeTags); //Remove hidden properties under '_'
-		if (arr[0] === '_') arr = arr.slice(1);
 
-		//Iterate over every seen type and remove them from arr so we don't call them again
-		for (let i = 0; i < seenTypes.length; i++) {
-			let index = arr.indexOf(seenTypes[i]);
-			if (index !== -1) arr.splice(index, 1);
+		if (this.typeTags.length > 0) {
+			let types = this.typeTags;
+			let arr = [...this.typeTags.keys()];
+
+			//Iterate over every seen type and remove them from arr so we don't call them again
+			for (let i = 0; i < seenTypes.length; i++) {
+				let index = arr.indexOf(seenTypes[i]);
+				if (index !== -1) arr.splice(index, 1);
+			}
+
+			arr.forEach(uuid => {
+				props = new Map(props, types.get(uuid).getTaggedProperties(seenTypes));
+			});
 		}
-
-		arr.forEach(uuid => {
-			props = props.concat(types[uuid].getTaggedProperties(seenTypes));
-		});
-
 		return props;
 	}
 
 	get properties() {
-		//Combine all parent Types and with this._properties
+		//Combine all tagged Types and with this._properties
 		let props = this._properties;
 
-		//Getting properties from this object means we're at the start so add ourselves to the seenTypes dictionary
+		//Getting properties from this Type means we're at the start so add ourselves to the seenTypes dictionary
 		let seenTypes = [];
 		seenTypes.push(this.uuid);
 		let types = this.typeTags;
-		let arr = Object.keys(this.typeTags); //Remove hidden properties under '_'
-		if (arr[0] === '_') arr = arr.slice(1);
-		arr.forEach(uuid => {
-			props = props.concat(types[uuid].getTaggedProperties(seenTypes));
+		this.typeTags.forEach((type, uuid) => {
+			props = new Map(props, types.get(uuid).getTaggedProperties(seenTypes));
 		});
 
-		return props;
+		return new Collection('Properties', props);
 	}
 	set properties(value) {
-		return value;
+		throw new Error(`Don't try to set Type.properties.`);
 	}
 }
