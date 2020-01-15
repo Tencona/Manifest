@@ -29,6 +29,22 @@ export class Result {
 				break;
 		}
 	}
+
+	static success(message, payload, forceLog) {
+		return new Result(RESULT_TYPE.Success, message, payload, forceLog);
+	}
+
+	static warning(message, payload, forceLog) {
+		return new Result(RESULT_TYPE.Warning, message, payload, forceLog);
+	}
+
+	static error(message, payload, forceLog) {
+		return new Result(RESULT_TYPE.Error, message, payload, forceLog);
+	}
+
+	static criticalError(message, payload, forceLog) {
+		return new Result(RESULT_TYPE.CriticalError, message, payload, forceLog);
+	}
 }
 
 export let RESULT_TYPE = ManifestConfig.RESULT_TYPE;

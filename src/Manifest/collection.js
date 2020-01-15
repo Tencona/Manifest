@@ -15,16 +15,15 @@ export default class Collection extends Map {
 		let foundRecord = this.get(record.uuid);
 		if (foundRecord) {
 			//oh no
-			return new Result(
-				RESULT_TYPE.Error,
+			return Result.error(
 				`Unable to add to ${this.name}. Record with uuid already exists: ${record.uuid}`,
 				record
 			);
 		} else if (!foundRecord && record.isValid) {
 			this.set(record.uuid, record);
-			return new Result(RESULT_TYPE.Success, `Successfully added record: ${record.uuid} to ${this.name}`, record);
+			return Result.success(`Successfully added record: ${record.uuid} to ${this.name}`, record);
 		} else {
-			return new Result(RESULT_TYPE.Error, `Unable to add record. Record invalid: ${record.uuid}`, record);
+			return Result.error(`Unable to add record. Record invalid: ${record.uuid}`, record);
 		}
 	}
 
@@ -34,13 +33,9 @@ export default class Collection extends Map {
 		let foundRecord = this.delete(uuid);
 		if (foundRecord) {
 			//oh yes
-			return new Result(RESULT_TYPE.Success, `Removed record: ${uuid}`, record);
+			return Result.success(`Removed record: ${uuid}`, record);
 		} else {
-			return new Result(
-				RESULT_TYPE.Warning,
-				`Unable to remove record - record not part of the collection: ${uuid}`,
-				record
-			);
+			return Result.warning(`Unable to remove record - record not part of the collection: ${uuid}`, record);
 		}
 	}
 
