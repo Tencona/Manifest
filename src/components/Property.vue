@@ -5,6 +5,11 @@
 			<div class="propName" :title="'uuid: ' + property.uuid">{{property.name}}</div>
 			<div class v-if="property.valueType.name === 'Text'">
 				<div class="propertyTypeDisplay">T</div>
+				<TextProperty
+					v-bind:item.sync="item"
+					v-bind:property.sync="property"
+					@value-changed="valueChanged"
+				/>
 			</div>
 			<div v-else-if="property.valueType.name === 'Numeric'">
 				<div class="propertyTypeDisplay">N</div>
@@ -12,45 +17,44 @@
 			<div v-else-if="property.valueType.name === 'Date'">
 				<div class="propertyTypeDisplay">D</div>
 			</div>
-			<input v-model="value" @input="valueChanged" />
 		</div>
 		<div class="footer">Footer</div>
 	</div>
 </template>
 
 <script>
+import TextProperty from '@/components/TextProperty';
+
 export default {
 	name: 'Property',
-	components: {},
+	components: {
+		TextProperty,
+	},
 	props: {
+		item: Object,
 		property: Object,
-		index: Number,
 	},
 	mounted() {
 		console.log(`Loading Property: ${this.property.uuid}`);
 	},
 	data() {
 		return {
-			value: '', //TODO Whenever this value changes, check to see if it passes the Property validation, then signal up to the Item to set its value
+			value: '',
 		};
 	},
 	computed: {},
 	methods: {
-		valueChanged() {
+		valueChanged(value) {
+			//TODO Whenever this value changes, check to see if it passes the Property validation, then signal up to the Item to set its value
 			//? Debounce this?
-			if (!this.property.validation || (this.property.validation && this.property.validation(this.value)))
-				this.$emit('value-changed', this.property, this.value);
+			if (!this.property.validation || (this.property.validation && this.property.validation(value)))
+				this.$emit('value-changed', this.property, value);
 		},
 	},
 };
 </script>
 
 <style scoped>
-input {
-	border: none;
-	border-radius: 0.2em;
-	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.23) inset;
-}
 .Property {
 	display: flex;
 	flex-direction: column;

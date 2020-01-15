@@ -35,7 +35,12 @@
 					:key="property.prop.uuid"
 					:dragIgnoreFrom="'.propertyWrap'"
 				>
-					<Property class="property" v-bind:property.sync="property.prop" @value-changed="valueChanged"></Property>
+					<Property
+						class="property"
+						v-bind:item.sync="item"
+						v-bind:property.sync="property.prop"
+						@value-changed="valueChanged"
+					></Property>
 				</grid-item>
 			</grid-layout>
 			<AddProperty v-show="editMode" @addProperty="propertyAdded" />
