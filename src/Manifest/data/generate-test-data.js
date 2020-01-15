@@ -52,9 +52,8 @@ export default {
 	//#region GetRandom
 	getRandomElement: function(collection) {
 		//TODO add number to request an amount of random elements so the slice can be cached
-		let arr = Object.keys(collection); //Remove hidden properties under '_'
-		if (arr[0] === '_') arr = arr.slice(1);
-		return collection[arr[Math.floor(Math.random() * arr.length)]];
+		let arr = collection instanceof Map ? [...collection.values()] : [...collection];
+		return arr[Math.floor(Math.random() * arr.length)];
 	},
 	getRandomItem: function() {
 		return this.getRandomElement(this.Manifest.items);
@@ -76,8 +75,10 @@ export default {
 		for (let i = 0; i < number; i++) {
 			let type = new this.Manifest.Models.Type(this.getRandomString(5, 'aA'));
 
+			//#region Add TagTypes
 			function addTagType(that, type) {
-				type.typeTags.add(that.getRandomType()); //Not going to grab itself because it's not in `this.types` yet
+				let rType = that.getRandomType();
+				type.typeTags.set(rType.uuid, rType); //Not going to grab itself because it's not in `this.types` yet
 			}
 
 			if (this.Manifest.types.length > 0 && this.chance(40)) {
@@ -85,6 +86,7 @@ export default {
 					addTagType(this, type);
 				} while (this.chance(20));
 			}
+			//#endregion
 
 			let propertiesPerType = this.getRandomInt(1, this.config.numProperties);
 			for (let p = 0; p < propertiesPerType; p++) {

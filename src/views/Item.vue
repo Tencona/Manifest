@@ -59,11 +59,11 @@ export default {
 	},
 	props: {},
 	mounted() {
-		let keys = Object.keys(this.manifest.items).slice(1); //Remove 'name'
-		let randomItem = this.manifest.items[keys[Math.floor(Math.random() * keys.length)]];
+		let keys = [...this.manifest.items.keys()];
+		let randomItem = this.manifest.items.get(keys[Math.floor(Math.random() * keys.length)]);
 
 		while (this.manifest.items.length > 0 && randomItem.type.typeTags.length < 2) {
-			randomItem = this.manifest.items[keys[Math.floor(Math.random() * keys.length)]];
+			randomItem = this.manifest.items.get(keys[Math.floor(Math.random() * keys.length)]);
 		}
 		if (randomItem) {
 			this.item = randomItem;
