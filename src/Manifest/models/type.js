@@ -19,20 +19,18 @@ export default class Type {
 		if (property && property.isValid) {
 			//Name matters, not uuid, because this is user-facing
 			if (this.properties.find(x => x.name === property.name)) {
-				return new Result(
-					RESULT_TYPE.Error,
+				return Result.error(
 					`Attempted to add a Property in Type.addProperty() but a Property with the same name already exists: ${property.name}`
 				);
 			}
 
 			this._properties.set(property.uuid, property);
-			return new Result(
-				RESULT_TYPE.Success,
+			return Result.success(
 				`Added Property - name: '${property.name}'\nvalueType: '${property.valueType.name}'\nvalidation: ${
 					property.validation ? 'true' : 'false'
 				}`
 			);
-		} else return new Result(RESULT_TYPE.Error, 'Attempted to add an invalid Property in Type.addProperty()');
+		} else return Result.error('Attempted to add an invalid Property in Type.addProperty()');
 	}
 
 	removeProperty(property) {
@@ -41,21 +39,13 @@ export default class Type {
 			if (foundProperty) {
 				this._properties.splice(foundProperty, 1);
 
-				return new Result(
-					RESULT_TYPE.Success,
-					`Successfully removed Property: ${property.uuid} from Type: ${this.uuid}`
-				);
+				return Result.success(`Successfully removed Property: ${property.uuid} from Type: ${this.uuid}`);
 			} else {
-				return new Result(
-					RESULT_TYPE.Error,
+				return Result.error(
 					`Attempted to remove a Property: ${property.uuid} that doesn't belong to Type: ${this.uuid}`
 				);
 			}
-		} else
-			return new Result(
-				RESULT_TYPE.Error,
-				`Attempted to remove a Property that doesn't exist in Type.removeProperty()'`
-			);
+		} else return Result.error(`Attempted to remove a Property that doesn't exist in Type.removeProperty()'`);
 	}
 
 	getTaggedProperties(seenTypes) {

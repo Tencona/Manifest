@@ -17,12 +17,8 @@ export default class Item {
 		if (property && value) {
 			let oldValue = this.properties[property];
 			this.properties[property] = value;
-			return new Result(RESULT_TYPE.Success, `Set Item Property: '${property}' - '${oldValue}' => '${value}'`);
-		} else
-			return new Result(
-				RESULT_TYPE.Error,
-				`Attempted to set Item Property with Property: '${property}' and Value: '${value}'`
-			);
+			return Result.success(`Set Item Property: '${property}' - '${oldValue}' => '${value}'`);
+		} else return Result.error(`Attempted to set Item Property with Property: '${property}' and Value: '${value}'`);
 	}
 
 	removeUnusedProperties() {
