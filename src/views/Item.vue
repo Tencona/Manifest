@@ -14,17 +14,19 @@
 		<div id="body">
 			<grid-layout
 				:layout.sync="propertiesLayout"
-				:col-num="12"
+				:col-num="48"
 				:row-height="30"
 				:is-draggable="true"
 				:is-resizable="true"
 				:is-mirrored="false"
-				:prevent-overlap="true"
-				:vertical-compact="true"
+				:prevent-collision="true"
+				:vertical-compact="false"
 				:margin="[10, 10]"
 				:use-css-transforms="true"
 			>
 				<grid-item
+					minH="2"
+					minW="3"
 					class="gridItem"
 					v-for="property in propertiesLayout"
 					:x="property.x"
@@ -35,7 +37,12 @@
 					:key="property.prop.uuid"
 					:dragIgnoreFrom="'.propertyWrap'"
 				>
-					<Property class="property" v-bind:property.sync="property.prop" @value-changed="valueChanged"></Property>
+					<Property
+						class="property"
+						v-bind:item.sync="item"
+						v-bind:property.sync="property.prop"
+						@value-changed="valueChanged"
+					></Property>
 				</grid-item>
 			</grid-layout>
 			<AddProperty v-show="editMode" @addProperty="propertyAdded" />
@@ -74,14 +81,17 @@ export default {
 		// debugger;
 		this.item.type.properties.forEach((property, i) => {
 			this.propertiesLayout.push({
-				x: this.layoutConfig.width * (this.layoutConfig.index % 3),
+				//48 is the width (col-num) set in the grid-layout
+				x: this.layoutConfig.width * (this.layoutConfig.index % (48 / this.layoutConfig.width)),
 				y: this.layoutConfig.ya,
 				w: this.layoutConfig.width,
 				h: this.layoutConfig.height,
 				i: this.layoutConfig.index,
 				prop: property,
 			});
-			if (this.layoutConfig.index % 3 == 2) this.layoutConfig.ya += this.layoutConfig.height;
+			//Step down to next row, 48 is the width (col-num) set in the grid-layout
+			if (this.layoutConfig.index % 3 == 48 / this.layoutConfig.width - 1)
+				this.layoutConfig.ya += this.layoutConfig.height;
 			this.layoutConfig.index++;
 		});
 	},
@@ -90,7 +100,7 @@ export default {
 			item: this.getDefaultItem(),
 			editMode: false,
 			propertiesLayout: [],
-			layoutConfig: { xa: 0, ya: 0, width: 4, height: 2, index: 0 },
+			layoutConfig: { xa: 0, ya: 0, width: 8, height: 2, index: 0 },
 		};
 	},
 	computed: {

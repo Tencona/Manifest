@@ -1,22 +1,25 @@
 import { Result, RESULT_TYPE } from '@/Manifest/models/result';
 import { exists, uuid } from '@/Manifest/extensions/utility';
+import Collection from '@/Manifest/collection';
 
 export default class Item {
 	constructor(type) {
 		this.uuid = uuid();
 		this.type = type;
-		this.properties = {};
+		this.values = new Collection('Values');
 	}
 
 	get isValid() {
 		return !!this.uuid && !!this.type;
 	}
 
-	setProperty(property, value) {
+	//!This is the *value* of the property
+	//TODO ensure the property actually exists for for the Type before setting
+	setValue(property, value) {
 		//`property` is the Property uuid
 		if (property && value) {
-			let oldValue = this.properties[property];
-			this.properties[property] = value;
+			let oldValue = this.values.get(property);
+			this.values.set(property, value);
 			return Result.success(`Set Item Property: '${property}' - '${oldValue}' => '${value}'`);
 		} else return Result.error(`Attempted to set Item Property with Property: '${property}' and Value: '${value}'`);
 	}
