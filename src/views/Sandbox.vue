@@ -1,5 +1,5 @@
 <template>
-	<div class="Home">
+	<div class="Sandbox">
 		<!-- <img alt="Vue logo" src="@/assets/logo.png" /> -->
 		<button @click="generateData">Generate Data</button>
 	</div>
@@ -12,7 +12,7 @@ import manifest from '@/Manifest/manifest';
 import gendata from '@/Manifest/data/generate-test-data';
 
 export default {
-	name: 'Home',
+	name: 'Sandbox',
 	components: {},
 	mounted() {},
 	data() {
@@ -31,6 +31,6 @@ export default {
 </script>
 
 <style scoped>
-.Home {
+.Sandbox {
 }
 </style>
