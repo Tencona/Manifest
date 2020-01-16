@@ -25,8 +25,8 @@
 				:use-css-transforms="true"
 			>
 				<grid-item
-					minH="2"
-					minW="3"
+					:minH="2"
+					:minW="3"
 					class="gridItem"
 					v-for="property in propertiesLayout"
 					:x="property.x"
@@ -74,6 +74,8 @@ export default {
 		}
 		if (randomItem) {
 			this.item = randomItem;
+			console.log('Item loaded:');
+			console.log(this.item);
 		}
 
 		//Set up layout for item
