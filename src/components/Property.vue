@@ -22,8 +22,15 @@
 					@value-changed="valueChanged"
 				/>
 			</div>
-			<div v-else-if="property.valueType.name === 'Numeric'"></div>
-			<div v-else-if="property.valueType.name === 'Date'"></div>
+			<div class="fillContainer" v-else-if="property.valueType.name === 'Numeric'">
+				<NumberProperty
+					class="fillContainer propInput"
+					v-bind:item.sync="item"
+					v-bind:property.sync="property"
+					@value-changed="valueChanged"
+				/>
+			</div>
+			<div class="fillContainer" v-else-if="property.valueType.name === 'Date'"></div>
 		</div>
 		<div class="footer">Footer</div>
 	</div>
@@ -31,11 +38,13 @@
 
 <script>
 import TextProperty from '@/components/TextProperty';
+import NumberProperty from '@/components/NumberProperty';
 
 export default {
 	name: 'Property',
 	components: {
 		TextProperty,
+		NumberProperty,
 	},
 	props: {
 		item: Object,
