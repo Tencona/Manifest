@@ -3,14 +3,29 @@ import { exists, uuid } from '@/Manifest/extensions/utility';
 import Collection from '@/Manifest/collection';
 
 export default class Item {
-	constructor(type) {
+	constructor(type, name) {
 		this.uuid = uuid();
 		this.type = type;
+		this.name = name ? name : 'Unnamed Item';
 		this.values = new Collection('Values');
 	}
 
 	get isValid() {
-		return !!this.uuid && !!this.type;
+		return !!this.uuid && !!this.type && !!this.name;
+	}
+
+	get name() {
+		return this._name;
+	}
+
+	set name(newName) {
+		if (newName !== undefined && newName !== null && newName !== '') {
+			this._name = newName;
+			return Result.success(`Set Item Name: ${this.name}`, newName);
+		} else {
+			this._name = 'Unnamed Item';
+			return Result.error(`Invalid name: ${newName}`, newName);
+		}
 	}
 
 	//!This is the *value* of the property
