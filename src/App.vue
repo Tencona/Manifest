@@ -19,6 +19,7 @@
 // import { mapState } from "vuex";
 import manifest from '@/Manifest/manifest';
 import gendata from '@/Manifest/data/generate-test-data';
+import Hotkeys from '@/interaction/hotkeys';
 
 export default {
 	mounted() {
@@ -30,6 +31,9 @@ export default {
 			gendata.init(this.$store.state.manifest);
 			gendata.generate();
 		}
+
+		//* Hotkeys
+		Hotkeys.initialize();
 	},
 };
 </script>
