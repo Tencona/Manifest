@@ -1,13 +1,11 @@
 <template>
 	<div class="Item">
 		<div id="headerBar">
-			<div class="headLeft">
-				<!-- <span id="title">{{item.name}}</span> -->
-				<span id="type">Name: {{item.type.name}}</span>
-				&nbsp;
-				<span id="uuid">uuid: {{item.uuid.substr(0,8)}}</span>
+			<div id="headerLeft" class="fillContainer">
+				<span id="typeName">{{item.type.name}}</span>
+				<input id="itemName" v-model="item.name" />
 			</div>
-			<div class="headRight">
+			<div id="headerRight">
 				<button id="btnAddProperty" @click="editMode = !editMode">{{editMode ? "Save" : "Edit"}}</button>
 			</div>
 		</div>
@@ -115,6 +113,9 @@ export default {
 		valueChanged(property, value) {
 			console.log(`Set Item Property: ${property.name} > ${value}`);
 		},
+		itemNameChanged(oldValue, newValue) {
+			let result = this.item.setName();
+		},
 		propertyAdded(name, valType) {
 			let valueType = Object.entries(this.manifest.Config.VALUE_TYPES)
 				.map(x => x[1])
@@ -144,6 +145,11 @@ export default {
 </script>
 
 <style scoped>
+.fillContainer {
+	display: flex;
+	flex: 1 0;
+}
+
 .Item {
 	display: flex;
 	flex-direction: column;
@@ -153,6 +159,26 @@ export default {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+}
+
+#headerLeft {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+#typeName {
+	color: rgb(160, 160, 160);
+}
+
+#itemName {
+	outline: none;
+	user-select: none;
+	border: none;
+	font-size: 32px;
+	flex: 1 0;
+	width: 100%;
+	height: 100%;
 }
 
 .properties {
