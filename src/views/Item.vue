@@ -3,7 +3,7 @@
 		<div id="headerBar">
 			<div id="headerLeft" class="fillContainer">
 				<span id="typeName">{{item.type.name}}</span>
-				<input id="itemName" v-model="item.name" />
+				<input id="itemName" v-model="itemName" @input="itemNameChanged" />
 			</div>
 			<div id="headerRight">
 				<button id="btnAddProperty" @click="editMode = !editMode">{{editMode ? "Save" : "Edit"}}</button>
@@ -72,6 +72,7 @@ export default {
 		}
 		if (randomItem) {
 			this.item = randomItem;
+			this.itemName = this.item.name;
 			console.log('Item loaded:');
 			console.log(this.item);
 		}
@@ -98,6 +99,7 @@ export default {
 	data() {
 		return {
 			item: this.getDefaultItem(),
+			itemName: 'Unnamed Item',
 			editMode: false,
 			propertiesLayout: [],
 			layoutConfig: { xa: 0, ya: 0, width: 8, height: 2, index: 0 },
@@ -113,8 +115,11 @@ export default {
 		valueChanged(property, value) {
 			console.log(`Set Item Property: ${property.name} > ${value}`);
 		},
-		itemNameChanged(oldValue, newValue) {
-			let result = this.item.setName();
+		itemNameChanged(event) {
+			//* I kind of really hate this. It sets it, and if it's invalid, it'll correct it, so then to update the screen, set `this.itemName`..
+			//TODO fix this up later
+			this.item.name = this.itemName;
+			this.itemName = this.item.name;
 		},
 		propertyAdded(name, valType) {
 			let valueType = Object.entries(this.manifest.Config.VALUE_TYPES)

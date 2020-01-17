@@ -100,7 +100,7 @@ export default {
 	generateItem: function(number = 1) {
 		let arr = [];
 		for (let i = 0; i < number; i++) {
-			let item = new this.Manifest.Models.Item(this.getRandomType());
+			let item = new this.Manifest.Models.Item(this.getRandomType(), this.getRandomString(5, 'aA'));
 
 			this.Manifest.addItem(item);
 		}
