@@ -6,7 +6,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import { mapState } from 'vuex';
 import manifest from '@/Manifest/manifest';
 import gendata from '@/Manifest/data/generate-test-data';
