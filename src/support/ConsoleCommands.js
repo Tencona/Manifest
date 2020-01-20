@@ -80,7 +80,7 @@ function executeCommand(manifest, userInput) {
 
 	//Unknown Command
 	else {
-		const result = new Result(RESULT_TYPE.Errpr, `Unknown command: '${userInput.cmd}'`);
+		const result = Result.error(`Unknown command: '${userInput.cmd}'`);
 		return result;
 	}
 }
