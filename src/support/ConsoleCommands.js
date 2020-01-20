@@ -1,3 +1,5 @@
+import { Result, RESULT_TYPE } from '@/Manifest/models/result';
+
 export default { executeCommand };
 
 function executeCommand(manifest, userInput) {
@@ -32,7 +34,9 @@ function executeCommand(manifest, userInput) {
 				break;
 			case 'type':
 				const newType = new manifest.Models.Type(firstValue);
-				return manifest.addType(newType);
+				const result = manifest.addType(newType);
+				result.payload = { type: newType };
+				return result;
 				break;
 			case 'prop':
 				if (matchedType) {
@@ -73,4 +77,10 @@ function executeCommand(manifest, userInput) {
 	//search -type -<property name>  -<property name 2>
 	//Matches all types that have the given properties
 	//#endregion
+
+	//Unknown Command
+	else {
+		const result = new Result(RESULT_TYPE.Errpr, `Unknown command: '${userInput.cmd}'`);
+		return result;
+	}
 }
