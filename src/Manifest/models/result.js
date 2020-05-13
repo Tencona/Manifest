@@ -1,5 +1,7 @@
 import ManifestConfig from '@/Manifest/config';
 
+export const { RESULT_TYPE } = ManifestConfig;
+
 export class Result {
 	constructor(resultType, message, payload, forceLog) {
 		this.resultType = resultType;
@@ -11,22 +13,24 @@ export class Result {
 		this.isError = false;
 		this.isCriticalError = false;
 		switch (resultType) {
-			case 1: //Success
+			case 1: // Success
 				this.isSuccessful = true;
 				if ((ManifestConfig.logSuccesses || forceLog) && message) console.log(this.message);
 				break;
-			case 2: //Warning
+			case 2: // Warning
 				this.isWarning = true;
 				if ((ManifestConfig.logWarnings || forceLog) && message) console.warn(this.message);
 				break;
-			case 3: //Error
+			case 3: // Error
 				this.isError = true;
 				if ((ManifestConfig.logErrors || forceLog) && message) console.warn(this.message);
 				break;
-			case 3: //Critical Error
+			case 4: // Critical Error
 				this.isCriticalError = true;
 				if ((ManifestConfig.logCriticalErrors || forceLog) && message) console.error(this.message);
 				break;
+			default:
+				throw new Error('Using illegal result type');
 		}
 	}
 
@@ -46,5 +50,3 @@ export class Result {
 		return new Result(RESULT_TYPE.CriticalError, message, payload, forceLog);
 	}
 }
-
-export let RESULT_TYPE = ManifestConfig.RESULT_TYPE;

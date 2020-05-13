@@ -30,8 +30,8 @@ export default {
 		...mapState(['manifest']),
 	},
 	methods: {
-		runCommand: function(userInput) {
-			let result = ConsoleCommands.executeCommand(this.manifest, userInput);
+		runCommand(userInput) {
+			const result = ConsoleCommands.executeCommand(this.manifest, userInput);
 
 			if (result.payload) {
 				if (result.payload.item) this.lastItem = result.payload.item;

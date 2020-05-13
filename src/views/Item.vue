@@ -64,12 +64,13 @@ export default {
 	},
 	props: {},
 	mounted() {
-		let keys = [...this.manifest.items.keys()];
-		let randomItem = this.manifest.items.get(keys[Math.floor(Math.random() * keys.length)]);
+		const keys = [...this.manifest.items.keys()];
+		// let randomItem = this.manifest.items.get(keys[Math.floor(Math.random() * keys.length)]);
+		const randomItem = this.manifest.items.get(keys[0]);
 
-		while (this.manifest.items.length > 0 && randomItem.type.typeTags.length < 2) {
-			randomItem = this.manifest.items.get(keys[Math.floor(Math.random() * keys.length)]);
-		}
+		// while (this.manifest.items.length > 0 && randomItem.type.typeTags.length < 2) {
+		// 	randomItem = this.manifest.items.get(keys[Math.floor(Math.random() * keys.length)]);
+		// }
 		if (randomItem) {
 			this.item = randomItem;
 			this.itemName = this.item.name;
@@ -77,12 +78,12 @@ export default {
 			console.log(this.item);
 		}
 
-		//Set up layout for item
-		let layout = [];
+		// Set up layout for item
+		// const layout = [];
 		// debugger;
-		this.item.type.properties.forEach((property, i) => {
+		this.item.type.properties.forEach(property => {
 			this.propertiesLayout.push({
-				//48 is the width (col-num) set in the grid-layout
+				// 48 is the width (col-num) set in the grid-layout
 				x: this.layoutConfig.width * (this.layoutConfig.index % (48 / this.layoutConfig.width)),
 				y: this.layoutConfig.ya,
 				w: this.layoutConfig.width,
@@ -90,10 +91,11 @@ export default {
 				i: this.layoutConfig.index,
 				prop: property,
 			});
-			//Step down to next row, 48 is the width (col-num) set in the grid-layout
-			if (this.layoutConfig.index % 3 == 48 / this.layoutConfig.width - 1)
+			// Step down to next row, 48 is the width (col-num) set in the grid-layout
+			if (this.layoutConfig.index % 3 === 48 / this.layoutConfig.width - 1) {
 				this.layoutConfig.ya += this.layoutConfig.height;
-			this.layoutConfig.index++;
+			}
+			this.layoutConfig.index += 1;
 		});
 	},
 	data() {
@@ -102,7 +104,13 @@ export default {
 			itemName: 'Unnamed Item',
 			editMode: false,
 			propertiesLayout: [],
-			layoutConfig: { xa: 0, ya: 0, width: 8, height: 2, index: 0 },
+			layoutConfig: {
+				xa: 0,
+				ya: 0,
+				width: 8,
+				height: 2,
+				index: 0,
+			},
 		};
 	},
 	computed: {
@@ -113,26 +121,28 @@ export default {
 			return { uuid: 'uuid', type: {}, properties: {} };
 		},
 		valueChanged(property, value) {
+			this.item.setValue(property.uuid, value);
 			console.log(`Set Item Property: ${property.name} > ${value}`);
 		},
 		itemNameChanged(event) {
+			console.log(`itemNameChanged: ${this.item.name} ${event}`);
 			//* I kind of really hate this. It sets it, and if it's invalid, it'll correct it, so then to update the screen, set `this.itemName`..
-			//TODO fix this up later
+			// TODO fix this up later
 			this.item.name = this.itemName;
 			this.itemName = this.item.name;
 		},
 		propertyAdded(name, valType) {
-			let valueType = Object.entries(this.manifest.Config.VALUE_TYPES)
+			const valueType = Object.entries(this.manifest.Config.VALUE_TYPES)
 				.map(x => x[1])
 				.find(x => x.name === valType);
 			if (!valueType) {
 				console.error('Unable to match value type when adding property');
 			}
-			//TODO on success of adding a property, emit to `AddProperty` that it needs to clear its name field
-			let newProperty = new this.manifest.Models.Property(name, this.item.type.uuid, valueType);
-			let result = this.item.type.addProperty(newProperty);
+			// TODO on success of adding a property, emit to `AddProperty` that it needs to clear its name field
+			const newProperty = new this.manifest.Models.Property(name, this.item.type.uuid, valueType);
+			const result = this.item.type.addProperty(newProperty);
 			if (result.isSuccessful) {
-				//Add property to grid
+				// Add property to grid
 				this.propertiesLayout.push({
 					x: this.layoutConfig.width * (this.layoutConfig.index % 3),
 					y: this.layoutConfig.ya,
@@ -141,8 +151,8 @@ export default {
 					i: this.layoutConfig.index,
 					prop: newProperty,
 				});
-				if (this.layoutConfig.index % 3 == 2) this.layoutConfig.ya += this.layoutConfig.height;
-				this.layoutConfig.index++;
+				if (this.layoutConfig.index % 3 === 2) this.layoutConfig.ya += this.layoutConfig.height;
+				this.layoutConfig.index += 1;
 			}
 		},
 	},

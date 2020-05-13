@@ -1,12 +1,12 @@
-import { exists, uuid } from '@/Manifest/extensions/utility';
+import { v4 as uuid } from 'uuid';
 
 export default class Property {
 	constructor(name, type, valueType, validation) {
 		this.uuid = uuid();
 		this.name = name;
-		this.valueType = valueType; //Check this against VALUE_TYPES in config
+		this.valueType = valueType; // Check this against VALUE_TYPES in config
 		this.validation = validation;
-		this.type = type; //uuid
+		this.type = type; // uuid
 	}
 
 	get hasValidValue() {

@@ -13,7 +13,7 @@ export default {
 		property: Object,
 	},
 	mounted() {
-		//Load value from item
+		// Load value from item
 		if (this.item.values.has(this.property.uuid)) {
 			this.value = this.item.values.get(this.property.uuid);
 		}
@@ -26,7 +26,7 @@ export default {
 	computed: {},
 	methods: {
 		valueChanged() {
-			//? Debounce this?
+			// ? Debounce this?
 			this.$emit('value-changed', this.value);
 		},
 		valueScrolled(event) {
@@ -37,19 +37,17 @@ export default {
 			else if (event.ctrlKey) incrementAmount = 10;
 			else if (event.shiftKey) incrementAmount = 5;
 
-			//TODO Handle this better..
+			// TODO Handle this better..
 			if (this.value.toString().includes('.')) {
-				let split = this.value.toString().split('.');
-				let integer = parseInt(split[0]);
+				const split = this.value.toString().split('.');
+				let integer = parseInt(split[0], 10);
 				if (event.deltaY < 0) {
 					integer += incrementAmount;
 				} else integer -= incrementAmount;
-				this.value = parseFloat(integer + '.' + split[1]);
-			} else {
-				if (event.deltaY < 0) {
-					this.value += incrementAmount;
-				} else this.value -= incrementAmount;
-			}
+				this.value = parseFloat(`${integer}.${split[1]}`);
+			} else if (event.deltaY < 0) {
+				this.value += incrementAmount;
+			} else this.value -= incrementAmount;
 
 			this.valueChanged();
 		},

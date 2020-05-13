@@ -17,14 +17,14 @@
 
 <script>
 // import { mapState } from "vuex";
-import manifest from '@/Manifest/manifest';
+import Manifest from '@/Manifest/manifest';
 import gendata from '@/Manifest/data/generate-test-data';
 import Hotkeys from '@/interaction/hotkeys';
 
 export default {
 	mounted() {
 		if (!this.$store.state.manifest || !this.$store.state.manifest.isValid) {
-			this.$store.dispatch('setManifest', new manifest());
+			this.$store.dispatch('setManifest', new Manifest());
 			console.warn('Had to reinitialize Manifest. Figure out why. Models disappearing?');
 		}
 		if (this.$store.state.manifest.items.length === 0) {

@@ -13,7 +13,7 @@ export default {
 		property: Object,
 	},
 	mounted() {
-		//Load value from item
+		// Load value from item
 		if (this.item.values.has(this.property.uuid)) {
 			this.value = this.item.values.get(this.property.uuid);
 		}
@@ -26,7 +26,7 @@ export default {
 	computed: {},
 	methods: {
 		valueChanged() {
-			//? Debounce this?
+			// ? Debounce this?
 			this.$emit('value-changed', this.value);
 		},
 	},

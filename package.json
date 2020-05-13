@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "core-js": "^2.6.9",
     "graybox": "0.0.1",
     "register-service-worker": "^1.6.2",
+    "uuid": "^8.0.0",
     "vue": "^2.6.10",
     "vue-grid-layout": "^2.3.7",
     "vue-router": "^3.0.3",
@@ -18,8 +20,14 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.2",
+    "@vue/cli-plugin-eslint": "^4.3.1",
     "@vue/cli-plugin-pwa": "^3.9.0",
     "@vue/cli-service": "^4.1.2",
+    "@vue/eslint-config-airbnb": "^5.0.2",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-vue": "^6.2.2",
     "vue-template-compiler": "^2.5.21"
   },
   "postcss": {

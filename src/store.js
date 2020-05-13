@@ -19,7 +19,7 @@ export default new Vuex.Store({
 		},
 	},
 	actions: {
-		setManifest({ state, getters, commit, dispatch }, payload) {
+		setManifest({ commit }, payload) {
 			commit('setManifest', payload);
 		},
 	},

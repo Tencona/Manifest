@@ -12,7 +12,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import manifest from '@/Manifest/manifest';
+// import manifest from '@/Manifest/manifest';
 import gendata from '@/Manifest/data/generate-test-data';
 import Modal from '@/components/Modal';
 

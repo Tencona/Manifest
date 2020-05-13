@@ -1,6 +1,6 @@
 export default class Hotkeys {
 	static keyCodes = [
-		//This is every keycode with a descriptor.
+		// This is every keycode with a descriptor.
 		{
 			keyCode: 3,
 			keyDesc: ['break'],
@@ -393,14 +393,14 @@ export default class Hotkeys {
 			keyDesc: ['f10'],
 		},
 		// {
-		// 	keyCode: 122,
-		// 	keyDesc: ["f11"],
-		// 	ignore: true
+		//   keyCode: 122,
+		//   keyDesc: ["f11"],
+		//   ignore: true
 		// },
 		// {
-		// 	keyCode: 123,
-		// 	keyDesc: ["f12"],
-		// 	ignore: true
+		//   keyCode: 123,
+		//   keyDesc: ["f12"],
+		//   ignore: true
 		// },
 		{
 			keyCode: 124,
@@ -631,7 +631,9 @@ export default class Hotkeys {
 			keyDesc: ['toggle touchpad'],
 		},
 	];
+
 	static activeKeys = [];
+
 	static keyFunctions = [];
 
 	static initialize() {
@@ -645,7 +647,7 @@ export default class Hotkeys {
 		this.add([
 			{
 				keys: ['control', 'q'],
-				func: function() {
+				func() {
 					console.log('hotkeys active');
 				},
 			},
@@ -654,86 +656,87 @@ export default class Hotkeys {
 		]);
 	}
 
-	//Used to interpret what keys were sent
-	//Any modifier key *MUST* be accompanied by at least some regular key.
+	// Used to interpret what keys were sent
+	// Any modifier key *MUST* be accompanied by at least some regular key.
 	static interpretKeyStrings = function(keys) {
-		if (keys.every(x => x.modifier))
+		if (keys.every(x => x.modifier)) {
 			throw Error('Cannot use a modifier key by itself. It must be accompanied by a regular key.');
+		}
 
-		var rKeys = []; //Resolved keys
-		for (var i = 0; i < keys.length; i++) {
-			var lower = keys[i].toLowerCase().trim();
-			var desiredKey = this.keyCodes.find(x => x.keyDesc.includes(lower));
+		const rKeys = []; // Resolved keys
+		for (let i = 0; i < keys.length; i += 1) {
+			const lower = keys[i].toLowerCase().trim();
+			const desiredKey = this.keyCodes.find(x => x.keyDesc.includes(lower));
 			if (desiredKey) rKeys.push(desiredKey.keyCode);
-			else
+			else {
 				throw Error(
-					'No corresponding key found for input: ' +
-						key[i] +
-						'\nPlease check Hotkeys.js keyCodes for the correct input.'
+					`No corresponding key found for input: ${keys[i]}\nPlease check Hotkeys.js keyCodes for the correct input.`
 				);
+			}
 		}
 		return rKeys;
 	};
 
-	//Used for adding new Hotkeys
+	// Used for adding new Hotkeys
 	static add = function(bindings) {
-		for (var bind of bindings) {
-			bind.keys = this.interpretKeyStrings(bind.keys); //Turns key strings into numbers.
+		bindings.forEach(bind => {
+			bind.keys = this.interpretKeyStrings(bind.keys); // Turns key strings into numbers.
 
 			const isFunction = function(functionToCheck) {
-				var getType = {};
+				const getType = {};
 				return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 			};
-			if (!isFunction(bind.func)) throw Error('Invalid function provided for hotkey: ' + bind.keys.join(', '));
+			if (!isFunction(bind.func)) throw Error(`Invalid function provided for hotkey: ${bind.keys.join(', ')}`);
 			this.keyFunctions.push({
 				keys: bind.keys,
 				func: bind.func,
 			});
-		}
+		});
 	};
 
-	//Runs on keydown, capturing keys for my key prison
+	// Runs on keydown, capturing keys for my key prison
 	static keyDown = function(e) {
-		e = e || window.event;
+		const event = e || window.event;
 
 		if (
 			document.activeElement.tagName.includes('INPUT') ||
 			document.activeElement.tagName.includes('TEXTAREA') ||
-			!document.hasFocus() //To allow input instead of triggering a hotkey while in a form, and to make sure we're not capturing when the window isn't focused.
-		)
+			!document.hasFocus() // To allow input instead of triggering a hotkey while in a form, and to make sure we're not capturing when the window isn't focused.
+		) {
 			return;
-		if (!this.keyCodes.find(x => x.keyCode === e.keyCode)) return;
+		}
+		if (!this.keyCodes.find(x => x.keyCode === event.keyCode)) return;
 
 		this.activeKeys = [];
-		if (e.shiftKey) this.activeKeys.push(16);
-		if (e.ctrlKey) this.activeKeys.push(17);
-		if (e.altKey) this.activeKeys.push(18);
-		//Add new key afterwards so it doesn't double up
-		if (!this.activeKeys.find(x => x === e.keyCode)) this.activeKeys.push(e.keyCode);
+		if (event.shiftKey) this.activeKeys.push(16);
+		if (event.ctrlKey) this.activeKeys.push(17);
+		if (event.altKey) this.activeKeys.push(18);
+		// Add new key afterwards so it doesn't double up
+		if (!this.activeKeys.find(x => x === event.keyCode)) this.activeKeys.push(event.keyCode);
 
-		//See if they've got a combo to run and prevent the default keybinds.
+		// See if they've got a combo to run and prevent the default keybinds.
 		if (this.activeKeys.some(x => !this.keyCodes.find(y => y.keyCode === x).modifier)) {
-			//If there are any keys that are not a modifier, proceed.
-			var binding = this.keyFunctions.find(x => x.keys.equals(this.activeKeys));
+			// If there are any keys that are not a modifier, proceed.
+			const binding = this.keyFunctions.find(x => x.keys.equals(this.activeKeys));
 			if (binding) {
-				e.preventDefault();
+				event.preventDefault();
 				binding.func();
 			}
 		}
 	};
 
-	//Remove all activeKeys because as soon as any key is let go, we're no longer looking for a combo
-	static keyUp = function(e) {
+	// Remove all activeKeys because as soon as any key is let go, we're no longer looking for a combo
+	static keyUp = function() {
 		this.activeKeys = [];
 	};
 
-	//? Where do I want to actually put these functions?
-	//TODO: undo and redo
+	// ? Where do I want to actually put these functions?
+	// TODO: undo and redo
 	static undo = function() {
-		console.log("Undo hotkey triggered! It's super ineffective!");
+		console.log('Undo hotkey triggered! It\'s super ineffective!');
 	};
 
 	static redo = function() {
-		console.log("Redo hotkey triggered! It's super ineffective!");
+		console.log('Redo hotkey triggered! It\'s super ineffective!');
 	};
 }

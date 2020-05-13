@@ -61,10 +61,9 @@ export default {
 	computed: {},
 	methods: {
 		valueChanged(value) {
-			//TODO Whenever this value changes, check to see if it passes the Property validation, then signal up to the Item to set its value
-			//? Debounce this?
-			if (!this.property.validation || (this.property.validation && this.property.validation(value)))
-				this.$emit('value-changed', this.property, value);
+			// TODO Whenever this value changes, check to see if it passes the Property validation, then signal up to the Item to set its value
+			// ? Debounce this?
+			if (!this.property.validation || (this.property.validation && this.property.validation(value))) { this.$emit('value-changed', this.property, value); }
 		},
 	},
 };

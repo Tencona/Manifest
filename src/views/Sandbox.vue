@@ -7,7 +7,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import manifest from '@/Manifest/manifest';
+// import Manifest from '@/Manifest/manifest';
 import gendata from '@/Manifest/data/generate-test-data';
 
 export default {
@@ -30,6 +30,4 @@ export default {
 </script>
 
 <style scoped>
-.Sandbox {
-}
 </style>
