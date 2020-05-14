@@ -18,13 +18,13 @@ export default class Manifest {
 
 	get isValid() {
 		return (
-			this.types
-			&& this.items
+			this.types &&
+			this.items &&
 			// Can models disappear because they're constructors? Is that how Vuex stores them?
-			&& this.Models.Item
-			&& this.Models.Property
-			&& this.Models.Type
-			&& this.Models.Result
+			this.Models.Item &&
+			this.Models.Property &&
+			this.Models.Type &&
+			this.Models.Result
 		);
 	}
 

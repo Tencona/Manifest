@@ -733,10 +733,10 @@ export default class Hotkeys {
 	// ? Where do I want to actually put these functions?
 	// TODO: undo and redo
 	static undo = function() {
-		console.log('Undo hotkey triggered! It\'s super ineffective!');
+		console.log("Undo hotkey triggered! It's super ineffective!");
 	};
 
 	static redo = function() {
-		console.log('Redo hotkey triggered! It\'s super ineffective!');
+		console.log("Redo hotkey triggered! It's super ineffective!");
 	};
 }
